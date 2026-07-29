@@ -1,0 +1,1719 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<template id="__bundler_thumbnail">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <rect width="100" height="100" rx="18" fill="#141014"/>
+    <circle cx="50" cy="48" r="26" fill="#ff6b1a" opacity=".18"/>
+    <circle cx="36" cy="34" r="8" fill="#ff6b1a"/><circle cx="64" cy="34" r="8" fill="#ff6b1a"/>
+    <circle cx="50" cy="52" r="19" fill="#f7f4ee"/>
+    <ellipse cx="42" cy="48" rx="5.5" ry="6.5" fill="#232329"/><ellipse cx="58" cy="48" rx="5.5" ry="6.5" fill="#232329"/>
+    <ellipse cx="50" cy="60" rx="4" ry="3" fill="#ff6b1a"/>
+  </svg>
+</template>
+<script>
+  // Production config. Leave blank to run fully offline (data saved in this browser).
+  // After deploying the Supabase Edge Function, set coachUrl + anonKey to enable the AI coach.
+  window.MACROMUNCH_CONFIG = {
+    coachUrl: '',   // e.g. 'https://xxxx.supabase.co/functions/v1/coach'
+    anonKey:  '',   // Supabase anon public key (safe in the browser)
+  };
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800;900&family=Space+Mono&display=swap" rel="stylesheet">
+<style>
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:radial-gradient(120% 80% at 50% -10%, #241206 0%, #121215 45%, #0b0b0e 100%); font-family:'Nunito',sans-serif; color:#f4f1ea; -webkit-font-smoothing:antialiased; }
+  a{ color:#ff5c3d; text-decoration:none; } a:hover{ color:#d94526; }
+  @keyframes pm-bob{ 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-5px); } }
+  @keyframes pm-chew{ 0%,100%{ transform:translateY(0) scale(1,1); } 25%{ transform:translateY(2px) scale(1.05,.95); } 50%{ transform:translateY(-4px) scale(.97,1.03); } 75%{ transform:translateY(2px) scale(1.04,.96); } }
+  @keyframes pm-munch{ 0%,100%{ transform:scaleY(.25); } 50%{ transform:scaleY(1); } }
+  @keyframes pm-pop{ 0%{ transform:scale(.6); opacity:0; } 40%{ transform:scale(1.08); opacity:1; } 100%{ transform:scale(1); opacity:1; } }
+  @keyframes pm-toast{ 0%{ transform:translate(-50%,14px); opacity:0; } 12%{ transform:translate(-50%,0); opacity:1; } 82%{ transform:translate(-50%,0); opacity:1; } 100%{ transform:translate(-50%,-10px); opacity:0; } }
+  @keyframes pm-rise{ 0%{ transform:translateY(0) scale(.8); opacity:0; } 25%{ opacity:1; } 100%{ transform:translateY(-40px) scale(1.1); opacity:0; } }
+  @keyframes pm-wiggle{ 0%,100%{ transform:rotate(0); } 25%{ transform:rotate(-7deg); } 75%{ transform:rotate(7deg); } }
+  @keyframes pm-heart{ 0%{ transform:translateY(0) scale(.4); opacity:0; } 20%{ opacity:1; } 100%{ transform:translateY(-70px) scale(1); opacity:0; } }
+  @keyframes pm-floaty{ 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-8px); } }
+  button{ transition:transform .12s ease, filter .12s ease; }
+  button:hover{ filter:brightness(1.03); }
+  button:active{ transform:scale(.94); }
+  @media (max-width:820px){
+    .pm-dash-grid{ grid-template-columns:1fr !important; }
+    .pm-buddy{ order:-1 !important; position:static !important; }
+    .pm-two{ grid-template-columns:1fr !important; }
+    .pm-buddy-stage{ height:200px !important; }
+  }
+</style>
+</helmet>
+
+<div style="min-height:100vh; padding:26px 22px 60px; position:relative; overflow:hidden;">
+  <div style="position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden;">
+    <div style="position:absolute; top:-90px; left:-70px; width:340px; height:340px; border-radius:50%; background:radial-gradient(circle,#ff6b1a 0%,transparent 70%); opacity:.55;"></div>
+    <div style="position:absolute; top:120px; right:-90px; width:380px; height:380px; border-radius:50%; background:radial-gradient(circle,#ff8c42 0%,transparent 70%); opacity:.5;"></div>
+    <div style="position:absolute; bottom:-120px; left:30%; width:420px; height:420px; border-radius:50%; background:radial-gradient(circle,#c74a08 0%,transparent 70%); opacity:.5;"></div>
+    <div style="position:absolute; top:44%; left:8%; font-size:22px; opacity:.35; animation:pm-floaty 6s ease-in-out infinite;">🎋</div>
+    <div style="position:absolute; top:20%; right:14%; font-size:18px; opacity:.35; animation:pm-floaty 5s ease-in-out .8s infinite;">✨</div>
+    <div style="position:absolute; bottom:16%; right:22%; font-size:20px; opacity:.3; animation:pm-floaty 7s ease-in-out .3s infinite;">🐾</div>
+  </div>
+  <div style="max-width:1220px; margin:0 auto; position:relative; z-index:1;">
+
+    <!-- Top bar -->
+    <header style="display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap; margin-bottom:26px;">
+      <div style="display:flex; align-items:center; gap:13px;">
+        <div style="width:44px; height:44px; border-radius:14px; background:#ff6b1a; display:flex; align-items:center; justify-content:center; animation:pm-floaty 4s ease-in-out infinite;">
+          <div style="position:relative; width:26px; height:26px;">
+            <div style="position:absolute; left:1px; top:0; width:9px; height:9px; background:#17171b; border-radius:50%;"></div>
+            <div style="position:absolute; right:1px; top:0; width:9px; height:9px; background:#17171b; border-radius:50%;"></div>
+            <div style="position:absolute; left:50%; top:6px; transform:translateX(-50%); width:22px; height:20px; background:#17171b; border-radius:50%;"></div>
+            <div style="position:absolute; left:8px; top:12px; width:4px; height:4px; background:#f4f1ea; border-radius:50%;"></div>
+            <div style="position:absolute; right:8px; top:12px; width:4px; height:4px; background:#f4f1ea; border-radius:50%;"></div>
+          </div>
+        </div>
+        <div>
+          <div style="font-family:'Fredoka',sans-serif; font-weight:700; font-size:22px; letter-spacing:-.5px; line-height:1; white-space:nowrap;">Panda Macros</div>
+          <div style="font-family:'Space Mono',monospace; font-size:10px; letter-spacing:1.5px; color:#9a949f; margin-top:3px;">FEED YOUR STREAK</div>
+        </div>
+      </div>
+
+      <nav style="display:flex; gap:2px; background:#17171b; padding:6px; border-radius:14px; border:1px solid #2c2c34;">
+        <button onClick="{{ goDash }}" style="{{ tabDash }}">Dashboard</button>
+        <button onClick="{{ goLog }}" style="{{ tabLog }}">Log Food</button>
+        <button onClick="{{ goPrep }}" style="{{ tabPrep }}">Meal Prep</button>
+        <button onClick="{{ goShop }}" style="{{ tabShop }}">Shopping</button>
+        <button onClick="{{ goBody }}" style="{{ tabBody }}">Body</button>
+        <button onClick="{{ goPets }}" style="{{ tabPets }}">Pets</button>
+      </nav>
+
+      <div style="display:flex; align-items:center; gap:10px;">
+        <div style="display:flex; align-items:center; gap:8px; background:#17171b; border:1px solid #2c2c34; padding:9px 15px; border-radius:999px;">
+          <span style="font-size:14px;">📅</span>
+          <span style="font-family:'Nunito'; font-weight:800; font-size:13px; color:#f4f1ea; white-space:nowrap;" ref="{{ dateHdrRef }}">Today</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:10px; background:#1f1f25; color:#f4f1ea; padding:9px 16px; border-radius:999px;">
+          <span style="width:16px; height:18px; border-radius:6px; background:linear-gradient(#8ccf5d,#6fae45); display:inline-block;"></span>
+          <span style="font-family:'Fredoka',sans-serif; font-weight:700; font-size:19px;" ref="{{ bambooRef }}">0</span>
+          <span style="font-size:12px; color:#9a949f;">bamboo</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- ============ DASHBOARD ============ -->
+    <sc-if value="{{ onDash }}" hint-placeholder-val="{{ true }}">
+    <div class="pm-dash-grid" style="display:grid; grid-template-columns:1.55fr 1fr; gap:22px; align-items:start;">
+
+      <!-- Left column -->
+      <div style="display:flex; flex-direction:column; gap:22px;">
+
+        <!-- Calories hero -->
+        <section style="background:#17171b; border:1px solid #2c2c34; border-radius:24px; padding:26px 28px; box-shadow:0 20px 44px -34px rgba(60,50,40,.6);">
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:18px;">
+            <div>
+              <div style="font-family:'Space Mono',monospace; font-size:11px; letter-spacing:1.5px; color:#9a949f;" ref="{{ dateHeroRef }}">TODAY</div>
+              <h2 style="font-family:'Fredoka',sans-serif; font-weight:700; font-size:24px; margin:4px 0 0;">Calories</h2>
+            </div>
+            <div style="text-align:right;">
+              <div style="font-size:13px; color:#9a949f;">Goal {{ calGoal }} kcal</div>
+              <div style="font-size:13px; color:#9a949f;">Remaining <b style="color:#f4f1ea;" ref="{{ calLeftRef }}">2000</b></div>
+            </div>
+          </div>
+          <div style="display:flex; align-items:center; gap:30px;">
+            <div style="position:relative; width:168px; height:168px; flex:none;">
+              <div ref="{{ calRingRef }}" style="position:absolute; inset:0; border-radius:50%; background:#26262e;"></div>
+              <div style="position:absolute; inset:15px; border-radius:50%; background:#17171b; display:flex; flex-direction:column; align-items:center; justify-content:center;">
+                <div style="font-family:'Fredoka',sans-serif; font-weight:700; font-size:40px; line-height:1;" ref="{{ calNumRef }}">0</div>
+                <div style="font-size:12px; color:#9a949f; margin-top:3px;">kcal eaten</div>
+              </div>
+            </div>
+            <div style="flex:1; display:flex; flex-direction:column; gap:15px;">
+              <!-- macro bars -->
+              <div>
+                <div style="display:flex; justify-content:space-between; font-size:13px; font-weight:700; margin-bottom:6px;"><span>🍗 Protein</span><span ref="{{ pTxtRef }}" style="color:#9a949f; font-weight:600;">0 / 150 g</span></div>
+                <div style="height:12px; border-radius:999px; background:#26262e; overflow:hidden;"><div ref="{{ pBarRef }}" style="height:100%; width:100%; background:#ff6b1a; transform-origin:left; transform:scaleX(0);"></div></div>
+              </div>
+              <div>
+                <div style="display:flex; justify-content:space-between; font-size:13px; font-weight:700; margin-bottom:6px;"><span>🍚 Carbs</span><span ref="{{ cTxtRef }}" style="color:#9a949f; font-weight:600;">0 / 220 g</span></div>
+                <div style="height:12px; border-radius:999px; background:#26262e; overflow:hidden;"><div ref="{{ cBarRef }}" style="height:100%; width:100%; background:#ffa53d; transform-origin:left; transform:scaleX(0);"></div></div>
+              </div>
+              <div>
+                <div style="display:flex; justify-content:space-between; font-size:13px; font-weight:700; margin-bottom:6px;"><span>🥑 Fat</span><span ref="{{ fTxtRef }}" style="color:#9a949f; font-weight:600;">0 / 65 g</span></div>
+                <div style="height:12px; border-radius:999px; background:#26262e; overflow:hidden;"><div ref="{{ fBarRef }}" style="height:100%; width:100%; background:#ff5c3d; transform-origin:left; transform:scaleX(0);"></div></div>
+              </div>
+              <div>
+                <div style="display:flex; justify-content:space-between; font-size:13px; font-weight:700; margin-bottom:6px;"><span>🌿 Fiber</span><span ref="{{ fbTxtRef }}" style="color:#9a949f; font-weight:600;">0 / 30 g</span></div>
+                <div style="height:12px; border-radius:999px; background:#26262e; overflow:hidden;"><div ref="{{ fbBarRef }}" style="height:100%; width:100%; background:#ff8c42; transform-origin:left; transform:scaleX(0);"></div></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Water + quick log -->
+        <section style="background:#17171b; border:1px solid #2c2c34; border-radius:24px; padding:24px 28px; box-shadow:0 20px 44px -34px rgba(60,50,40,.6);">
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:14px;">
+            <h2 style="font-family:'Fredoka',sans-serif; font-weight:700; font-size:19px; margin:0;">Water</h2>
+            <div style="display:flex; align-items:center; gap:10px;">
+              <button onClick="{{ removeWater }}" style="width:34px; height:34px; border-radius:10px; border:1px solid #34343d; background:#26262e; font-size:20px; cursor:pointer; color:#9a949f;">–</button>
+              <span style="font-family:'Fredoka',sans-serif; font-weight:700; font-size:16px; min-width:54px; text-align:center;" ref="{{ waterTxtRef }}">0 / 8</span>
+              <button onClick="{{ addWater }}" style="width:34px; height:34px; border-radius:10px; border:none; background:#ff8c42; color:#14100c; font-size:20px; cursor:pointer;">+</button>
+            </div>
+          </div>
+          <div ref="{{ waterRowRef }}" style="display:flex; gap:8px;"></div>
+        </section>
+
+        <!-- Quick add -->
+        <section style="background:#17171b; border:1px solid #2c2c34; border-radius:24px; padding:24px 28px; box-shadow:0 20px 44px -34px rgba(60,50,40,.6);">
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:16px;">
+            <h2 style="font-family:'Fredoka',sans-serif; font-weight:700; font-size:19px; margin:0;">Quick add</h2>
+            <button onClick="{{ resetDay }}" style="font-family:'Nunito'; font-size:12px; font-weight:700; color:#9a949f; background:none; border:none; cursor:pointer;">Reset day</button>
+          </div>
+          <div ref="{{ foodRowRef }}" style="display:grid; grid-template-columns:repeat(3,1fr); gap:12px;"></div>
+        </section>
+      </div>
+
+      <!-- Right: pet reward -->
+      <aside class="pm-buddy" style="background:#121216; border-radius:24px; padding:26px 26px 30px; color:#f4f1ea; box-shadow:0 24px 50px -30px rgba(60,50,40,.7); position:sticky; top:20px;">
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:6px;">
+          <div style="font-family:'Space Mono',monospace; font-size:11px; letter-spacing:1.5px; color:#9a949f;">YOUR BUDDY</div>
+          <div style="font-family:'Space Mono',monospace; font-size:11px; letter-spacing:1px; color:#ff9142;">LV <span ref="{{ lvlRef }}">1</span></div>
+        </div>
+        <h2 style="font-family:'Fredoka',sans-serif; font-weight:700; font-size:28px; margin:0 0 2px;">Momo</h2>
+        <div style="font-size:13px; color:#9a949f; margin-bottom:12px;" ref="{{ moodRef }}">Peckish — feed me!</div>
+
+        <div class="pm-buddy-stage" style="position:relative; height:236px; border-radius:20px; background:radial-gradient(65% 55% at 50% 40%, #4a2408 0%, #1a1319 72%); overflow:hidden;">
+          <div style="position:absolute; left:16px; top:20px; width:44px; height:16px; background:#ffb37a; border-radius:999px; opacity:.10;"></div>
+          <div style="position:absolute; left:26px; top:13px; width:26px; height:16px; background:#ffb37a; border-radius:999px; opacity:.10;"></div>
+          <div style="position:absolute; right:20px; top:34px; width:52px; height:18px; background:#ffb37a; border-radius:999px; opacity:.10; animation:pm-floaty 4.5s ease-in-out infinite;"></div>
+          <div style="position:absolute; right:26px; top:96px; font-size:15px; opacity:.8; animation:pm-floaty 3.6s ease-in-out infinite;">✨</div>
+          <div style="position:absolute; left:20px; top:120px; font-size:13px; opacity:.75; animation:pm-floaty 4s ease-in-out .6s infinite;">✨</div>
+          <div style="position:absolute; inset:0; display:flex; align-items:flex-end; justify-content:center; padding-bottom:14px;">
+            <div ref="{{ pandaRef }}" style="position:relative; width:180px; height:196px; animation:pm-bob 3.2s ease-in-out infinite;">
+              <sc-if value="{{ eating }}" hint-placeholder-val="{{ false }}">
+                <div style="position:absolute; left:34px; top:70px; z-index:9; font-size:18px; animation:pm-heart 1.2s ease-out both;">💖</div>
+                <div style="position:absolute; right:34px; top:80px; z-index:9; font-size:14px; animation:pm-heart 1.2s ease-out .3s both;">💖</div>
+                <div style="position:absolute; left:78px; top:64px; z-index:7; animation:pm-pop .3s ease both;">
+                  <div style="position:relative; width:13px; height:50px; border-radius:7px; background:repeating-linear-gradient(#8ccf5d 0 14px,#6fae45 14px 18px);"></div>
+                </div>
+                <div style="position:absolute; left:81px; top:112px; z-index:8; width:17px; height:12px; background:#7a4a3c; border-radius:5px 5px 9px 9px; transform-origin:top center; animation:pm-munch .32s ease-in-out infinite;"><div style="position:absolute; bottom:2px; left:50%; transform:translateX(-50%); width:10px; height:6px; background:#ff7a9c; border-radius:50%;"></div></div>
+              </sc-if>
+              <div style="position:absolute; left:44px; top:100px; width:92px; height:96px; background:#fffdf8; border-radius:48% 48% 44% 44%;"></div>
+              <div style="position:absolute; left:40px; top:178px; width:40px; height:24px; background:#33323a; border-radius:50%;"></div>
+              <div style="position:absolute; right:40px; top:178px; width:40px; height:24px; background:#33323a; border-radius:50%;"></div>
+              <div style="position:absolute; left:26px; top:120px; width:26px; height:50px; background:#33323a; border-radius:44%; transform:rotate(15deg);"></div>
+              <div style="position:absolute; right:26px; top:120px; width:26px; height:50px; background:#33323a; border-radius:44%; transform:rotate(-15deg);"></div>
+              <div style="position:absolute; left:20px; top:2px; width:48px; height:48px; background:#33323a; border-radius:50%;"></div>
+              <div style="position:absolute; right:20px; top:2px; width:48px; height:48px; background:#33323a; border-radius:50%;"></div>
+              <div style="position:absolute; left:30px; top:13px; width:26px; height:26px; background:#ff6b1a; border-radius:50%; opacity:.9;"></div>
+              <div style="position:absolute; right:30px; top:13px; width:26px; height:26px; background:#ff6b1a; border-radius:50%; opacity:.9;"></div>
+              <div style="position:absolute; left:50%; top:16px; transform:translateX(-50%); width:138px; height:120px; background:#fffdf8; border-radius:50%;">
+                <div style="position:absolute; left:22px; top:40px; width:38px; height:46px; background:#33323a; border-radius:50%; transform:rotate(20deg);"></div>
+                <div style="position:absolute; right:22px; top:40px; width:38px; height:46px; background:#33323a; border-radius:50%; transform:rotate(-20deg);"></div>
+                <div style="position:absolute; left:27px; top:44px; width:30px; height:36px; background:#fff; border-radius:50%; overflow:hidden;"><div style="position:absolute; left:50%; bottom:-2px; transform:translateX(-50%); width:27px; height:30px; background:radial-gradient(circle at 50% 32%, #ffc08a 0%, #d1590d 100%); border-radius:50%;"></div><div style="position:absolute; left:50%; top:12px; transform:translateX(-50%); width:14px; height:16px; background:#20313a; border-radius:50%;"></div><div style="position:absolute; left:7px; top:6px; width:8px; height:8px; background:#fff; border-radius:50%;"></div></div>
+                <div style="position:absolute; right:27px; top:44px; width:30px; height:36px; background:#fff; border-radius:50%; overflow:hidden;"><div style="position:absolute; left:50%; bottom:-2px; transform:translateX(-50%); width:27px; height:30px; background:radial-gradient(circle at 50% 32%, #ffc08a 0%, #d1590d 100%); border-radius:50%;"></div><div style="position:absolute; left:50%; top:12px; transform:translateX(-50%); width:14px; height:16px; background:#20313a; border-radius:50%;"></div><div style="position:absolute; left:7px; top:6px; width:8px; height:8px; background:#fff; border-radius:50%;"></div></div>
+                <div style="position:absolute; left:16px; top:80px; width:20px; height:11px; background:#ff9db0; border-radius:50%; opacity:.72;"></div>
+                <div style="position:absolute; right:16px; top:80px; width:20px; height:11px; background:#ff9db0; border-radius:50%; opacity:.72;"></div>
+                <div style="position:absolute; left:50%; top:78px; transform:translateX(-50%); width:16px; height:12px; background:#ff5f8a; border-radius:8px 8px 11px 11px;"></div>
+              </div>
+            </div>
+          </div>
+          <div ref="{{ earnPopRef }}" style="position:absolute; left:50%; top:20px; transform:translateX(-50%); opacity:0; font-family:'Fredoka'; font-weight:700; font-size:15px; color:#ff8c42; background:#241a12; padding:4px 12px; border-radius:999px;"></div>
+        </div>
+
+        <!-- energy + xp -->
+        <div style="margin-top:18px;">
+          <div style="display:flex; justify-content:space-between; font-size:12px; margin-bottom:6px;"><span style="color:#9a949f;">Energy</span><span ref="{{ energyTxtRef }}" style="font-weight:700;">60%</span></div>
+          <div style="height:10px; border-radius:999px; background:#d8d3dd; overflow:hidden;"><div ref="{{ energyBarRef }}" style="height:100%; width:100%; background:#ff6b1a; transform-origin:left; transform:scaleX(.6);"></div></div>
+          <div style="display:flex; justify-content:space-between; font-size:12px; margin:14px 0 6px;"><span style="color:#9a949f;">XP to Lv <span ref="{{ nextLvlRef }}">2</span></span><span ref="{{ xpTxtRef }}" style="font-weight:700;">0 / 100</span></div>
+          <div style="height:10px; border-radius:999px; background:#d8d3dd; overflow:hidden;"><div ref="{{ xpBarRef }}" style="height:100%; width:100%; background:#ffc24d; transform-origin:left; transform:scaleX(0);"></div></div>
+        </div>
+
+        <button onClick="{{ feed }}" ref="{{ feedBtnRef }}" style="margin-top:20px; width:100%; padding:14px; border:none; border-radius:14px; cursor:pointer; font-family:'Fredoka'; font-weight:600; font-size:17px; color:#14100c; background:#ff9142; display:flex; align-items:center; justify-content:center; gap:10px;">
+          <span style="width:15px; height:17px; border-radius:5px; background:linear-gradient(#8ccf5d,#6fae45); display:inline-block;"></span>
+          <span ref="{{ feedLabelRef }}">Feed Momo · 2 bamboo</span>
+        </button>
+        <div style="text-align:center; font-size:12px; color:#9a949f; margin-top:12px; line-height:1.5;">Hit a macro goal to earn bamboo,<br>then feed Momo to level up.</div>
+      </aside>
+    </div>
+    </sc-if>
+
+    <!-- ============ LOG FOOD ============ -->
+    <sc-if value="{{ onLog }}" hint-placeholder-val="{{ false }}">
+    <div class="pm-two" style="display:grid; grid-template-columns:1.5fr 1fr; gap:22px; align-items:start;">
+      <section style="background:#17171b; border:1px solid #2c2c34; border-radius:24px; padding:24px 26px; box-shadow:0 20px 44px -34px rgba(60,50,40,.6);">
+        <h2 style="font-family:'Fredoka',sans-serif; font-weight:700; font-size:22px; margin:0 0 4px;">Log food</h2>
+        <p style="font-size:13px; color:#9a949f; margin:0 0 16px;">Search individual foods, pick a meal, and tap + to add. Star a food to save it as a frequent.</p>
+        <div ref="{{ scaleBarLogRef }}"></div>
+        <input ref="{{ logSearchRef }}" onInput="{{ onSearch }}" placeholder="Search foods… e.g. chicken, banana, rice" style="width:100%; padding:14px 16px; border-radius:14px; border:1.5px solid #34343d; background:#1f1f25; font-family:Nunito; font-size:15px; font-weight:600; color:#f4f1ea; outline:none; margin-bottom:14px;">
+        <div ref="{{ mealRowRef }}" style="display:flex; gap:8px; margin-bottom:14px; flex-wrap:wrap;"></div>
+
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
+          <div style="font-family:'Space Mono',monospace; font-size:10px; letter-spacing:1.5px; color:#9a949f;">FREQUENT</div>
+          <button onClick="{{ toggleCustom }}" style="font-family:Nunito; font-size:12px; font-weight:800; color:#ff8c42; background:none; border:none; cursor:pointer;" ref="{{ customBtnRef }}">+ Add custom food</button>
+        </div>
+        <div ref="{{ freqRowRef }}" style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px;"></div>
+
+        <sc-if value="{{ showCustom }}" hint-placeholder-val="{{ false }}">
+          <div style="background:#1f1f25; border:1px solid #2c2c34; border-radius:16px; padding:16px; margin-bottom:16px;">
+            <input ref="{{ cfNameRef }}" placeholder="Food name" style="width:100%; padding:11px 13px; border-radius:11px; border:1.5px solid #34343d; background:#17171b; font-family:Nunito; font-weight:700; font-size:14px; outline:none; margin-bottom:10px;">
+            <div style="display:grid; grid-template-columns:repeat(5,1fr); gap:8px; margin-bottom:12px;">
+              <label style="font-size:11px; font-weight:700; color:#9a949f;">kcal<input ref="{{ cfCalRef }}" type="number" style="width:100%; margin-top:3px; padding:8px; border-radius:9px; border:1.5px solid #34343d; background:#17171b; font-family:Nunito; font-weight:700; font-size:13px; outline:none;"></label>
+              <label style="font-size:11px; font-weight:700; color:#9a949f;">P<input ref="{{ cfPRef }}" type="number" style="width:100%; margin-top:3px; padding:8px; border-radius:9px; border:1.5px solid #34343d; background:#17171b; font-family:Nunito; font-weight:700; font-size:13px; outline:none;"></label>
+              <label style="font-size:11px; font-weight:700; color:#9a949f;">C<input ref="{{ cfCRef }}" type="number" style="width:100%; margin-top:3px; padding:8px; border-radius:9px; border:1.5px solid #34343d; background:#17171b; font-family:Nunito; font-weight:700; font-size:13px; outline:none;"></label>
+              <label style="font-size:11px; font-weight:700; color:#9a949f;">F<input ref="{{ cfFRef }}" type="number" style="width:100%; margin-top:3px; padding:8px; border-radius:9px; border:1.5px solid #34343d; background:#17171b; font-family:Nunito; font-weight:700; font-size:13px; outline:none;"></label>
+              <label style="font-size:11px; font-weight:700; color:#9a949f;">Fb<input ref="{{ cfFbRef }}" type="number" style="width:100%; margin-top:3px; padding:8px; border-radius:9px; border:1.5px solid #34343d; background:#17171b; font-family:Nunito; font-weight:700; font-size:13px; outline:none;"></label>
+            </div>
+            <button onClick="{{ saveCustom }}" style="width:100%; padding:11px; border-radius:11px; border:none; cursor:pointer; font-family:Fredoka; font-weight:600; font-size:14px; background:#ff6b1a; color:#14100c;">Save & add to frequents</button>
+          </div>
+        </sc-if>
+
+        <div ref="{{ pickerRef }}"></div>
+
+        <div style="font-family:'Space Mono',monospace; font-size:10px; letter-spacing:1.5px; color:#9a949f; margin-bottom:8px;">ALL FOODS</div>
+        <div style="font-size:12px; color:#6f6a75; margin-bottom:8px;">Tap a food, then choose how much 🐾</div>
+        <div ref="{{ logListRef }}" style="border:1px solid #26262e; border-radius:16px; overflow:hidden; max-height:400px; overflow-y:auto;"></div>
+      </section>
+      <aside style="background:#17171b; border:1px solid #2c2c34; border-radius:24px; padding:24px 26px; box-shadow:0 20px 44px -34px rgba(60,50,40,.6); position:sticky; top:20px;">
+        <div style="display:flex; align-items:baseline; justify-content:space-between; gap:10px; margin-bottom:4px;">
+          <h2 style="font-family:'Fredoka',sans-serif; font-weight:700; font-size:19px; margin:0; white-space:nowrap;">Today's log</h2>
+          <button onClick="{{ resetDay }}" style="font-family:Nunito; font-size:12px; font-weight:700; color:#9a949f; background:none; border:none; cursor:pointer;">Clear</button>
+        </div>
+        <div ref="{{ logTotalsRef }}" style="font-size:12.5px; color:#9a949f; margin-bottom:10px;">0 kcal</div>
+        <div ref="{{ logEntriesRef }}" style="max-height:520px; overflow-y:auto;"></div>
+      </aside>
+    </div>
+    </sc-if>
+
+    <!-- ============ PETS ============ -->
+    <sc-if value="{{ onPets }}" hint-placeholder-val="{{ false }}">
+    <section>
+      <div style="display:flex; align-items:baseline; justify-content:space-between; margin-bottom:18px;">
+        <div>
+          <h2 style="font-family:'Fredoka',sans-serif; font-weight:700; font-size:26px; margin:0;">Your pandas</h2>
+          <p style="font-size:14px; color:#9a949f; margin:4px 0 0;">Feed and level up your buddy to unlock the rare ones. Tap a panda to set it active.</p>
+        </div>
+      </div>
+      <div ref="{{ petGridRef }}" style="display:grid; grid-template-columns:repeat(3,1fr); gap:22px;"></div>
+    </section>
+    </sc-if>
+
+    <!-- ============ BODY ============ -->
+    <sc-if value="{{ onBody }}" hint-placeholder-val="{{ false }}">
+    <div class="pm-two" style="display:grid; grid-template-columns:1fr 1.3fr; gap:22px; align-items:start;">
+      <section style="background:#17171b; border:1px solid #2c2c34; border-radius:24px; padding:24px 26px; box-shadow:0 20px 44px -34px rgba(60,50,40,.6);">
+        <h2 style="font-family:'Fredoka',sans-serif; font-weight:700; font-size:22px; margin:0 0 4px;">Body weight ⚖️</h2>
+        <p style="font-size:13px; color:#9a949f; margin:0 0 16px;">Step on your Bluetooth body scale to read your weight, then save it to track the trend.</p>
+        <div ref="{{ scaleBarBodyRef }}"></div>
+        <div ref="{{ bodyReadoutRef }}"></div>
+      </section>
+      <section>
+        <h2 style="font-family:'Fredoka',sans-serif; font-weight:700; font-size:22px; margin:0 0 14px;">History</h2>
+        <div ref="{{ bodyListRef }}" style="display:flex; flex-direction:column; gap:10px;"></div>
+      </section>
+    </div>
+    </sc-if>
+
+    <!-- ============ SHOPPING LIST ============ -->
+    <sc-if value="{{ onShop }}" hint-placeholder-val="{{ false }}">
+    <div class="pm-two" style="display:grid; grid-template-columns:1fr 1.4fr; gap:22px; align-items:start;">
+      <section style="background:#17171b; border:1px solid #2c2c34; border-radius:24px; padding:24px 26px; box-shadow:0 20px 44px -34px rgba(60,50,40,.6); position:sticky; top:20px;">
+        <h2 style="font-family:'Fredoka',sans-serif; font-weight:700; font-size:22px; margin:0 0 4px;">Add to list 🛒</h2>
+        <p style="font-size:13px; color:#9a949f; margin:0 0 16px;">Jot down what you need. Ask Bamboo to add ingredients for a recipe and they'll land here too.</p>
+        <input ref="{{ shopInputRef }}" onKeyDown="{{ onShopKey }}" placeholder="e.g. Chicken breast 1kg" style="width:100%; padding:13px 15px; border-radius:13px; border:1.5px solid #34343d; background:#1f1f25; font-family:Nunito; font-weight:700; font-size:14.5px; outline:none; margin-bottom:10px;">
+        <div ref="{{ shopCatRowRef }}" style="display:flex; gap:7px; flex-wrap:wrap; margin-bottom:14px;"></div>
+        <button onClick="{{ addShop }}" style="width:100%; padding:13px; border-radius:13px; border:none; cursor:pointer; font-family:Fredoka; font-weight:600; font-size:15px; background:#ffa53d; color:#14100c;">Add item 🎋</button>
+        <div style="margin-top:18px; padding-top:16px; border-top:1px dashed #2c2c34;">
+          <button onClick="{{ addLowStock }}" style="width:100%; padding:11px; border-radius:12px; border:1.5px solid #34343d; background:#1f1f25; cursor:pointer; font-family:Nunito; font-weight:800; font-size:13px; color:#9a949f;">＋ Add my frequent foods</button>
+        </div>
+      </section>
+      <section>
+        <div style="display:flex; align-items:baseline; justify-content:space-between; margin-bottom:14px;">
+          <div>
+            <h2 style="font-family:'Fredoka',sans-serif; font-weight:700; font-size:22px; margin:0;">Shopping list</h2>
+            <span ref="{{ shopCountRef }}" style="font-size:13px; color:#9a949f;">0 items</span>
+          </div>
+          <button onClick="{{ clearBought }}" style="font-family:Nunito; font-size:12px; font-weight:800; color:#9a949f; background:none; border:none; cursor:pointer;">Clear ticked</button>
+        </div>
+        <div ref="{{ shopListRef }}" style="display:flex; flex-direction:column; gap:16px;"></div>
+      </section>
+    </div>
+    </sc-if>
+
+    <!-- ============ MEAL PREP ============ -->
+    <sc-if value="{{ onPrep }}" hint-placeholder-val="{{ false }}">
+    <div class="pm-two" style="display:grid; grid-template-columns:1fr 1.6fr; gap:22px; align-items:start;">
+      <section style="background:#17171b; border:1px solid #2c2c34; border-radius:24px; padding:24px 26px; box-shadow:0 20px 44px -34px rgba(60,50,40,.6); position:sticky; top:20px;">
+        <h2 style="font-family:'Fredoka',sans-serif; font-weight:700; font-size:22px; margin:0 0 4px;">New meal prep</h2>
+        <p style="font-size:13px; color:#9a949f; margin:0 0 16px;">Cooked a batch? Add each ingredient and how much you used — we'll work out the macros per serving. Then tick servings off through the week.</p>
+        <input ref="{{ prepNameRef }}" placeholder="e.g. Chicken & rice batch" style="width:100%; padding:12px 14px; border-radius:12px; border:1.5px solid #34343d; background:#1f1f25; font-family:Nunito; font-weight:700; font-size:14px; outline:none; margin-bottom:12px;">
+        <label style="display:block; font-size:12px; font-weight:800; color:#9a949f; margin-bottom:5px;">Servings this batch made</label>
+        <input ref="{{ prepServingsRef }}" onInput="{{ onPrepServings }}" type="number" defaultValue="4" style="width:100%; padding:12px 14px; border-radius:12px; border:1.5px solid #34343d; background:#1f1f25; font-family:Nunito; font-weight:700; font-size:14px; outline:none; margin-bottom:14px;">
+        <div ref="{{ scaleBarPrepRef }}"></div>
+        <label style="display:block; font-size:12px; font-weight:800; color:#9a949f; margin-bottom:6px;">Ingredients in the whole batch 🥕</label>
+        <input ref="{{ prepIngSearchRef }}" onInput="{{ onPrepIngSearch }}" placeholder="Search an ingredient to add…" style="width:100%; padding:11px 13px; border-radius:12px; border:1.5px solid #34343d; background:#1f1f25; font-family:Nunito; font-weight:700; font-size:13.5px; outline:none;">
+        <div ref="{{ prepIngResultsRef }}"></div>
+        <div ref="{{ prepIngListRef }}" style="margin-top:10px;"></div>
+        <div ref="{{ prepTotalsRef }}" style="margin-top:12px;"></div>
+        <button onClick="{{ addPrep }}" style="width:100%; margin-top:14px; padding:13px; border-radius:12px; border:none; cursor:pointer; font-family:Fredoka; font-weight:600; font-size:15px; background:#ff8c42; color:#14100c;">Add meal prep</button>
+      </section>
+      <section>
+        <div style="display:flex; align-items:baseline; justify-content:space-between; margin-bottom:14px;">
+          <h2 style="font-family:'Fredoka',sans-serif; font-weight:700; font-size:22px; margin:0;">Your meal preps</h2>
+          <span style="font-size:13px; color:#9a949f;">Tap a serving to log it to today</span>
+        </div>
+        <div ref="{{ prepListRef }}" style="display:flex; flex-direction:column; gap:16px;"></div>
+      </section>
+    </div>
+    </sc-if>
+
+  </div>
+
+  <!-- ============ FLOATING COACH ============ -->
+  <button onClick="{{ toggleCoach }}" title="Chat with Bamboo" style="position:fixed; right:26px; bottom:26px; z-index:60; width:66px; height:66px; border-radius:50%; border:3px solid #17171b; cursor:pointer; background:linear-gradient(#ff6b1a,#c74a08); box-shadow:0 14px 30px -10px rgba(42,151,162,.75); display:flex; align-items:center; justify-content:center; font-size:30px; animation:pm-floaty 3.6s ease-in-out infinite;">🐼</button>
+
+  <sc-if value="{{ coachOpen }}" hint-placeholder-val="{{ false }}">
+  <div class="pm-coach-panel" style="position:fixed; right:26px; bottom:104px; z-index:61; width:400px; max-width:calc(100vw - 40px); height:min(600px, calc(100vh - 150px)); background:#17171b; border:2px solid #d9eef1; border-radius:24px; box-shadow:0 30px 60px -22px rgba(60,50,40,.55); overflow:hidden; display:flex; flex-direction:column; animation:pm-pop .22s ease both;">
+    <div style="display:flex; align-items:center; gap:11px; padding:15px 18px; border-bottom:1px solid #26262e; background:linear-gradient(#241a12,#17171b);">
+      <div style="width:38px; height:38px; border-radius:12px; background:#ff6b1a; display:flex; align-items:center; justify-content:center; font-size:20px;">🐼</div>
+      <div style="flex:1;">
+        <div style="font-family:'Fredoka',sans-serif; font-weight:700; font-size:17px;">Bamboo Coach</div>
+        <div style="font-size:11.5px; color:#9a949f;">Macros, meal ideas & logging 🎋</div>
+      </div>
+      <button onClick="{{ toggleCoach }}" style="border:none; background:none; cursor:pointer; color:#7d7783; font-size:17px; padding:4px 6px;">✕</button>
+    </div>
+    <div ref="{{ coachBoxRef }}" style="flex:1; overflow-y:auto; padding:16px 18px; display:flex; flex-direction:column; gap:10px;"></div>
+    <div ref="{{ coachPreviewRef }}" style="padding:0 18px;"></div>
+    <button onClick="{{ insertScaleWeight }}" ref="{{ coachScaleChipRef }}" style="display:none; margin:0 18px 8px; align-items:center; justify-content:center; gap:6px; cursor:pointer; font-family:Nunito; font-weight:800; font-size:12px; padding:9px 12px; border-radius:11px; border:1.5px solid #4a2a14; background:#241a12; color:#ffab5e;"></button>
+    <div ref="{{ coachChipsRef }}" style="display:flex; gap:6px; flex-wrap:wrap; padding:0 18px 10px;"></div>
+    <div style="display:flex; gap:8px; align-items:center; padding:13px 18px; border-top:1px solid #26262e;">
+      <input ref="{{ coachFileRef }}" onChange="{{ onCoachFile }}" type="file" accept="image/*" style="display:none;">
+      <button onClick="{{ pickCoachImage }}" title="Attach a photo of your food" style="width:42px; height:42px; flex:none; border-radius:12px; border:1.5px solid #34343d; background:#1f1f25; cursor:pointer; font-size:18px;">📷</button>
+      <input ref="{{ coachInputRef }}" onKeyDown="{{ onCoachKey }}" placeholder="Ask or snap your meal…" style="flex:1; min-width:0; padding:12px 14px; border-radius:12px; border:1.5px solid #34343d; background:#1f1f25; font-family:Nunito; font-weight:600; font-size:14px; outline:none;">
+      <button onClick="{{ sendCoach }}" style="padding:12px 18px; flex:none; border-radius:12px; border:none; cursor:pointer; font-family:Fredoka; font-weight:600; font-size:14px; background:#ff6b1a; color:#14100c;">Send</button>
+    </div>
+  </div>
+  </sc-if>
+
+  <!-- toast -->
+  <div ref="{{ toastRef }}" style="position:fixed; left:50%; bottom:34px; transform:translate(-50%,14px); opacity:0; background:#26262e; color:#f4f1ea; font-weight:700; font-size:14px; padding:12px 20px; border-radius:999px; box-shadow:0 16px 30px -14px rgba(0,0,0,.5); z-index:50;"></div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{}">
+class Component extends DCLogic {
+  state = {
+    screen: 'dashboard',
+    goals: { cal:2000, protein:150, carbs:220, fat:65, fiber:30, water:8 },
+    consumed: { cal:0, protein:0, carbs:0, fat:0, fiber:0, water:0 },
+    bamboo: 0,
+    claimed: {},
+    level: 1, xp: 0, energy: 60,
+    eating: false,
+    log: [],
+    query: '',
+    unlocked: { momo:true, bao:false, nova:false },
+    active: 'momo',
+    showCustom: false,
+    frequents: ['Chicken breast','Banana','Greek yogurt'],
+    mealPreps: [
+      { id:'seed1', name:'Chicken, rice & broccoli', emoji:'🍱', servings:5, consumed:1, per:{ cal:430, protein:42, carbs:48, fat:8, fiber:5 } },
+    ],
+    chat: [],
+    chatLoading: false,
+    coachOpen: false,
+    shopping: [
+      { id:'s1', name:'Chicken breast 1kg', cat:'Protein', done:false },
+      { id:'s2', name:'Greek yogurt', cat:'Dairy', done:false },
+      { id:'s3', name:'Spinach', cat:'Produce', done:true },
+    ],
+    bodyLog: [],
+  };
+  shopCats = ['Produce','Protein','Dairy','Pantry','Snacks','Other'];
+  shopCat = 'Produce';
+
+  // ---------- Bluetooth scale ----------
+  SCALE = {
+    ultreanService: '0000ffff-0000-1000-8000-00805f9b34fb',
+    ultreanWeight:  '0000ff02-0000-1000-8000-00805f9b34fb',
+    ultreanCommand: '0000ff01-0000-1000-8000-00805f9b34fb',
+    weightScale:    '0000181d-0000-1000-8000-00805f9b34fb',
+    weightMeas:     '00002a9d-0000-1000-8000-00805f9b34fb',
+    bodyComp:       '0000181b-0000-1000-8000-00805f9b34fb',
+    battery:        '0000180f-0000-1000-8000-00805f9b34fb',
+  };
+  scale = { status:'idle', name:'', grams:0, kg:0, msg:'', mode:'food', tare:0 };
+  scaleFollow = true;
+
+  scaleSupported(){ return typeof navigator !== 'undefined' && 'bluetooth' in navigator && window.isSecureContext; }
+  scaleUnavailableReason(){
+    if(typeof navigator === 'undefined' || !('bluetooth' in navigator)) return 'Needs Chrome or Edge — Safari/iOS can\'t do Web Bluetooth.';
+    if(!window.isSecureContext) return 'Needs a secure (https) page.';
+    return '';
+  }
+  setScale(patch){
+    this.scale = { ...this.scale, ...patch };
+    this.paintScale();
+    // BLE events live outside React — force a render so every scale-aware
+    // surface (Body readout, prep rows, picker label) updates too.
+    clearTimeout(this._scaleTick);
+    this._scaleTick = setTimeout(() => this.forceUpdate(), 60);
+  }
+
+  // Ultrean UL-KS09: byte 7 = digit count, then that many ASCII digits = grams
+  parseUltrean(dv){
+    try {
+      const n = dv.getUint8(7);
+      if(n < 1 || n > 8) return null;
+      let s = '';
+      for(let i=0;i<n;i++){
+        const b = dv.getUint8(8+i);
+        if(b < 0x30 || b > 0x39) return null;
+        s += String.fromCharCode(b);
+      }
+      const g = parseInt(s, 10);
+      return isFinite(g) ? g : null;
+    } catch(e){ return null; }
+  }
+  // Standard SIG Weight Measurement (2A9D)
+  parseSig(dv){
+    try {
+      const flags = dv.getUint8(0);
+      const raw = dv.getUint16(1, true);
+      return (flags & 0x01) ? raw * 0.01 * 0.45359237 : raw * 0.005; // lb→kg, else kg
+    } catch(e){ return null; }
+  }
+
+  async connectScale(mode){
+    if(!this.scaleSupported()){ this.setScale({ status:'error', msg:this.scaleUnavailableReason() }); return; }
+    try {
+      this.setScale({ status:'connecting', msg:'', mode: mode || 'food' });
+      const S = this.SCALE;
+      const device = await navigator.bluetooth.requestDevice({
+        acceptAllDevices: true,
+        optionalServices: [S.ultreanService, S.weightScale, S.bodyComp, S.battery],
+      });
+      this._scaleDevice = device;
+      device.addEventListener('gattserverdisconnected', () => this.setScale({ status:'idle', msg:'Scale disconnected' }));
+      const server = await device.gatt.connect();
+
+      let hooked = false;
+      // 1) Ultrean / clone protocol
+      try {
+        const svc = await server.getPrimaryService(S.ultreanService);
+        const ch = await svc.getCharacteristic(S.ultreanWeight);
+        await ch.startNotifications();
+        ch.addEventListener('characteristicvaluechanged', (e) => {
+          const g = this.parseUltrean(e.target.value);
+          if(g === null) return;
+          this.setScale({ grams:g, kg:Math.round(g/100)/10 });
+          this.onScaleReading();
+        });
+        try { const v = await ch.readValue(); const g = this.parseUltrean(v); if(g!==null) this.setScale({ grams:g }); } catch(e){}
+        hooked = true;
+      } catch(e){}
+      // 2) Standard SIG weight scale (most body scales)
+      if(!hooked){
+        try {
+          const svc = await server.getPrimaryService(S.weightScale);
+          const ch = await svc.getCharacteristic(S.weightMeas);
+          await ch.startNotifications();
+          ch.addEventListener('characteristicvaluechanged', (e) => {
+            const kg = this.parseSig(e.target.value);
+            if(kg === null) return;
+            this.setScale({ kg:Math.round(kg*10)/10, grams:Math.round(kg*1000) });
+            this.onScaleReading();
+          });
+          hooked = true;
+        } catch(e){}
+      }
+      if(!hooked){ this.setScale({ status:'error', msg:'Connected, but no known weight service found.' }); return; }
+      this.setScale({ status:'connected', name:device.name || 'Scale', msg:'' });
+      this.toast('⚖️ ' + (device.name || 'Scale') + ' connected');
+    } catch(err){
+      if(err && err.name === 'NotFoundError'){ this.setScale({ status:'idle', msg:'' }); return; }
+      this.setScale({ status:'error', msg:(err && err.message) || 'Could not connect' });
+    }
+  }
+  disconnectScale(){
+    try { if(this._scaleDevice && this._scaleDevice.gatt.connected) this._scaleDevice.gatt.disconnect(); } catch(e){}
+    this.setScale({ status:'idle', grams:0, kg:0 });
+  }
+  netGrams(){ return Math.max(0, this.scale.grams - this.scale.tare); }
+  tareScale(){ this.setScale({ tare:this.scale.grams }); this.toast('⚖️ Tared'); }
+  onScaleReading(){
+    if(!this.scaleFollow) return;
+    const g = this.netGrams();
+    if(this.pick && this.pick.unit === 'g'){ this.pickQty = g; this.paintPickerPreview(); }
+  }
+  toggleFollow(){ this.scaleFollow = !this.scaleFollow; this.forceUpdate(); this.toast(this.scaleFollow ? '⚖️ Following scale live' : '⚖️ Live follow off'); }
+  useScaleHere(){
+    const g = this.netGrams();
+    if(!g){ this.toast('No weight on the scale yet'); return; }
+    if(this.pick){
+      if(this.pick.unit !== 'g'){ this.toast('This food is measured in ' + this.pick.unit); return; }
+      this.pickQty = g; this.paintPickerPreview();
+      this.toast('⚖️ ' + g + ' g from scale');
+    }
+  }
+  paintScale(){
+    ['scaleBarLog','scaleBarPrep','scaleBarBody'].forEach(name => {
+      const host = this.refs[name] && this.refs[name].current;
+      if(host) this.renderScaleBar(host, name === 'scaleBarBody' ? 'body' : 'food');
+    });
+    const chip = this.refs.coachScaleChip && this.refs.coachScaleChip.current;
+    if(chip){
+      const on = this.scale.status === 'connected';
+      chip.style.display = on ? 'flex' : 'none';
+      chip.textContent = '⚖️ ' + this.netGrams() + ' g — add to message';
+    }
+  }
+  renderScaleBar(host, kind){
+    const s = this.scale, on = s.status === 'connected';
+    const accent = kind === 'body' ? '#ff6b1a' : '#ff8c42';
+    host.innerHTML = '';
+    const bar = document.createElement('div');
+    bar.style.cssText = 'display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:'+(on?'#241a12':'#1f1f25')+'; border:1.5px solid '+(on?'#4a2a14':'#2c2c34')+'; border-radius:14px; padding:10px 12px; margin-bottom:12px;';
+    const dot = document.createElement('span');
+    dot.style.cssText = 'width:9px; height:9px; border-radius:50%; flex:none; background:'+(on?'#ff8c42':s.status==='connecting'?'#ffa53d':s.status==='error'?'#ff5c3d':'#5d5866')+';';
+    const label = document.createElement('span');
+    label.style.cssText = 'flex:1; min-width:120px; font-size:12.5px; font-weight:800; color:#f4f1ea;';
+    if(on){
+      const val = kind === 'body' ? (s.kg ? s.kg + ' kg' : '—') : (this.netGrams() + ' g');
+      label.innerHTML = '⚖️ ' + val + ' <span style="font-weight:600; color:#9a949f;">· ' + (s.name||'scale') + '</span>';
+    } else if(s.status === 'connecting'){ label.textContent = 'Connecting to scale…'; }
+    else { label.innerHTML = '⚖️ Bluetooth scale <span style="font-weight:600; color:#7d7783;">not connected</span>'; }
+    bar.appendChild(dot); bar.appendChild(label);
+
+    const mkBtn = (txt, fn, primary) => {
+      const b = document.createElement('button');
+      b.textContent = txt;
+      b.style.cssText = 'flex:none; cursor:pointer; font-family:Nunito; font-weight:800; font-size:12px; padding:8px 13px; border-radius:10px; border:'+(primary?'none':'1.5px solid #34343d')+'; background:'+(primary?accent:'#17171b')+'; color:'+(primary?'#14100c':'#b0aab5')+';';
+      b.onclick = fn; return b;
+    };
+    if(!on){
+      if(this.scaleSupported()) bar.appendChild(mkBtn(s.status==='connecting'?'…':'Connect', () => this.connectScale(kind), true));
+    } else {
+      if(kind !== 'body'){
+        bar.appendChild(mkBtn('Tare', () => this.tareScale()));
+        bar.appendChild(mkBtn(this.scaleFollow ? '📡 Live: on' : '📡 Live: off', () => this.toggleFollow(), this.scaleFollow));
+        if(this.pick) bar.appendChild(mkBtn('Use weight', () => this.useScaleHere(), true));
+      }
+      bar.appendChild(mkBtn('Disconnect', () => this.disconnectScale()));
+    }
+    host.appendChild(bar);
+    const note = document.createElement('div');
+    note.style.cssText = 'font-size:11px; color:#c9915c; margin:-6px 0 12px; line-height:1.45;';
+    const why = s.msg || (this.scaleSupported() ? '' : this.scaleUnavailableReason());
+    note.textContent = (why ? why + ' ' : '') + (on ? '' : 'Chrome or Edge only (no Safari/iOS) — if the pairing prompt doesn\'t open, run the deployed page instead of the in-chat preview.');
+    if(note.textContent.trim()) host.appendChild(note);
+  }
+  pendingImage = null;
+
+
+  // macros are per `base` of `unit`; picker scales by quantity
+  db = [
+    { name:'Chicken breast', emoji:'🍗', unit:'g', base:100, def:150, step:10, cal:165, protein:31, carbs:0, fat:4, fiber:0 },
+    { name:'White rice, cooked', emoji:'🍚', unit:'cup', base:1, def:1, step:0.5, cal:205, protein:4, carbs:45, fat:0, fiber:1 },
+    { name:'Brown rice, cooked', emoji:'🍚', unit:'cup', base:1, def:1, step:0.5, cal:216, protein:5, carbs:45, fat:2, fiber:4 },
+    { name:'Broccoli', emoji:'🥦', unit:'g', base:100, def:100, step:25, cal:34, protein:3, carbs:7, fat:0, fiber:3 },
+    { name:'Egg', emoji:'🥚', unit:'egg', base:1, def:2, step:1, cal:72, protein:6, carbs:0, fat:5, fiber:0 },
+    { name:'Banana', emoji:'🍌', unit:'medium', base:1, def:1, step:1, cal:105, protein:1, carbs:27, fat:0, fiber:3 },
+    { name:'Oats, dry', emoji:'🥣', unit:'g', base:40, def:40, step:10, cal:150, protein:5, carbs:27, fat:3, fiber:4 },
+    { name:'Greek yogurt', emoji:'🥛', unit:'g', base:170, def:170, step:10, cal:100, protein:17, carbs:6, fat:0, fiber:0 },
+    { name:'Almonds', emoji:'🌰', unit:'g', base:28, def:28, step:7, cal:164, protein:6, carbs:6, fat:14, fiber:4 },
+    { name:'Salmon', emoji:'🐟', unit:'g', base:100, def:150, step:10, cal:208, protein:20, carbs:0, fat:13, fiber:0 },
+    { name:'Sweet potato', emoji:'🍠', unit:'g', base:130, def:130, step:10, cal:112, protein:2, carbs:26, fat:0, fiber:4 },
+    { name:'Avocado', emoji:'🥑', unit:'whole', base:1, def:0.5, step:0.25, cal:320, protein:4, carbs:18, fat:30, fiber:14 },
+    { name:'Apple', emoji:'🍎', unit:'medium', base:1, def:1, step:1, cal:95, protein:0, carbs:25, fat:0, fiber:4 },
+    { name:'Peanut butter', emoji:'🥜', unit:'tbsp', base:1, def:2, step:1, cal:95, protein:4, carbs:3, fat:8, fiber:1 },
+    { name:'Whole-wheat bread', emoji:'🍞', unit:'slice', base:1, def:2, step:1, cal:80, protein:4, carbs:14, fat:1, fiber:2 },
+    { name:'Cheddar cheese', emoji:'🧀', unit:'g', base:28, def:28, step:7, cal:115, protein:7, carbs:0, fat:9, fiber:0 },
+    { name:'Milk, 2%', emoji:'🥛', unit:'cup', base:1, def:1, step:0.5, cal:122, protein:8, carbs:12, fat:5, fiber:0 },
+    { name:'Ground beef 90/10', emoji:'🥩', unit:'g', base:100, def:150, step:10, cal:176, protein:20, carbs:0, fat:10, fiber:0 },
+    { name:'Tofu, firm', emoji:'🧈', unit:'g', base:100, def:100, step:25, cal:76, protein:8, carbs:2, fat:5, fiber:0 },
+    { name:'Black beans', emoji:'🫘', unit:'cup', base:0.5, def:0.5, step:0.25, cal:114, protein:8, carbs:20, fat:1, fiber:8 },
+    { name:'Spinach', emoji:'🥬', unit:'g', base:100, def:100, step:25, cal:23, protein:3, carbs:4, fat:0, fiber:2 },
+    { name:'Pasta, cooked', emoji:'🍝', unit:'cup', base:1, def:1, step:0.5, cal:220, protein:8, carbs:43, fat:1, fiber:3 },
+    { name:'Olive oil', emoji:'🫒', unit:'tbsp', base:1, def:1, step:0.5, cal:119, protein:0, carbs:0, fat:14, fiber:0 },
+    { name:'Blueberries', emoji:'🫐', unit:'cup', base:1, def:1, step:0.5, cal:84, protein:1, carbs:21, fat:0, fiber:4 },
+    { name:'Cottage cheese', emoji:'🧀', unit:'cup', base:0.5, def:0.5, step:0.25, cal:110, protein:12, carbs:5, fat:5, fiber:0 },
+    { name:'Whey protein', emoji:'🥤', unit:'scoop', base:1, def:1, step:1, cal:120, protein:25, carbs:3, fat:2, fiber:1 },
+    { name:'Quinoa, cooked', emoji:'🍲', unit:'cup', base:1, def:1, step:0.5, cal:222, protein:8, carbs:39, fat:4, fiber:5 },
+    { name:'Tuna, canned', emoji:'🐟', unit:'g', base:100, def:100, step:10, cal:116, protein:26, carbs:0, fat:1, fiber:0 },
+    { name:'Orange', emoji:'🍊', unit:'medium', base:1, def:1, step:1, cal:62, protein:1, carbs:15, fat:0, fiber:3 },
+    { name:'Carrot', emoji:'🥕', unit:'medium', base:1, def:1, step:1, cal:25, protein:1, carbs:6, fat:0, fiber:2 },
+  ];
+  meals = ['Breakfast','Lunch','Dinner','Snack'];
+  selectedMeal = 'Breakfast';
+  macroKeys = ['protein','carbs','fat','fiber'];
+  reward = { cal:2, protein:3, carbs:2, fat:2, fiber:3, water:2 };
+
+  refNames = ['bamboo','calRing','calNum','calLeft','pBar','cBar','fBar','fbBar','pTxt','cTxt','fTxt','fbTxt','waterTxt','waterRow','foodRow','lvl','mood','panda','energyTxt','energyBar','xpTxt','xpBar','nextLvl','feedBtn','feedLabel','earnPop','toast','logSearch','mealRow','logList','logEntries','logTotals','petGrid','dateHdr','dateHero','freqRow','customBtn','cfName','cfCal','cfP','cfC','cfF','cfFb','prepName','prepServings','prepCal','prepP','prepC','prepF','prepFb','prepList','coachBox','coachChips','coachInput','picker','coachPreview','coachFile','shopInput','shopCatRow','shopList','shopCount','prepIngSearch','prepIngResults','prepIngList','prepTotals',
+    'scaleBarLog','scaleBarPrep','scaleBarBody','coachScaleChip','bodyList','bodyReadout'];
+  constructor(p){
+    super(p);
+    this.refs = {};
+    this.refNames.forEach(n => this.refs[n] = React.createRef());
+    this.hydrate();
+  }
+
+  // ---------- local persistence (works with zero backend) ----------
+  STORE = 'macromunch.v1';
+  todayKey(){ const d = new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+  hydrate(){
+    let saved = null;
+    try { const raw = localStorage.getItem(this.STORE); if(raw) saved = JSON.parse(raw); } catch(e){}
+    if(!saved || typeof saved !== 'object') return;
+    if(Array.isArray(saved.customFoods) && saved.customFoods.length){
+      this.customFoods = {};
+      saved.customFoods.forEach(fd => { if(fd && fd.name){ this.customFoods[fd.name] = fd; } });
+      this.db = saved.customFoods.concat(this.db);
+    }
+    // never restore transient UI state
+    this.state = { ...this.state, ...(saved.state || {}),
+      screen:'dashboard', coachOpen:false, chat:[], chatLoading:false, eating:false, showCustom:false, query:'' };
+    if(saved.day !== this.todayKey()){
+      // new day: intake and goal claims reset, everything else carries over
+      this.state = { ...this.state, consumed:{ cal:0,protein:0,carbs:0,fat:0,fiber:0,water:0 }, claimed:{}, log:[] };
+    }
+  }
+  save(){
+    try {
+      const s = this.state;
+      const keep = { goals:s.goals, consumed:s.consumed, claimed:s.claimed, bamboo:s.bamboo,
+        level:s.level, xp:s.xp, energy:s.energy, log:s.log, frequents:s.frequents,
+        mealPreps:s.mealPreps, shopping:s.shopping, bodyLog:s.bodyLog, unlocked:s.unlocked, active:s.active };
+      localStorage.setItem(this.STORE, JSON.stringify({
+        day: this.todayKey(), state: keep,
+        customFoods: this.customFoods ? Object.keys(this.customFoods).map(k => this.customFoods[k]) : [],
+      }));
+    } catch(e){}
+  }
+
+  // ---------- coach transport: Edge Function in production, host helper in preview ----------
+  cfg(){ return (typeof window !== 'undefined' && window.MACROMUNCH_CONFIG) || {}; }
+  async askCoach(payload){
+    const c = this.cfg();
+    if(c.coachUrl){
+      const headers = { 'content-type':'application/json' };
+      if(c.authToken) headers.authorization = 'Bearer ' + c.authToken;
+      else if(c.anonKey) { headers.authorization = 'Bearer ' + c.anonKey; headers.apikey = c.anonKey; }
+      const res = await fetch(c.coachUrl, { method:'POST', headers, body:JSON.stringify(payload) });
+      if(!res.ok) throw new Error('coach ' + res.status);
+      const data = await res.json();
+      return data.text || '';
+    }
+    if(window.claude && window.claude.complete) return await window.claude.complete(payload);
+    throw new Error('no coach transport configured');
+  }
+
+  componentDidMount(){ this.repaint(); }
+  componentDidUpdate(){ this.repaint(); }
+  repaint(){
+    this.buildRows(); this.sync(); this.buildLog(); this.buildPets();
+    this.buildPrep(); this.buildShop(); this.buildBody(); this.buildCoach();
+    this.renderPicker(); this.paintScale();
+    clearTimeout(this._saveTimer);
+    this._saveTimer = setTimeout(() => this.save(), 250);
+  }
+
+  fmtDate(){ return new Date().toLocaleDateString('en-US',{ weekday:'short', month:'short', day:'numeric' }); }
+
+  addFood(fd, meal){
+    this.setState(s => {
+      const c = s.consumed;
+      const entry = { ...fd, meal: meal || 'Snack', id: Date.now()+Math.random() };
+      return {
+        consumed:{ ...c, cal:c.cal+fd.cal, protein:c.protein+fd.protein, carbs:c.carbs+fd.carbs, fat:c.fat+fd.fat, fiber:c.fiber+fd.fiber },
+        log: [entry, ...s.log],
+      };
+    }, () => this.checkGoals(fd.name+' logged'));
+  }
+  removeEntry(id){
+    this.setState(s => {
+      const e = s.log.find(x => x.id === id); if(!e) return {};
+      const c = s.consumed;
+      return {
+        consumed:{ ...c, cal:c.cal-e.cal, protein:c.protein-e.protein, carbs:c.carbs-e.carbs, fat:c.fat-e.fat, fiber:c.fiber-e.fiber },
+        log: s.log.filter(x => x.id !== id),
+      };
+    });
+  }
+  addWater(){ this.setState(s => ({ consumed:{ ...s.consumed, water:Math.min(s.goals.water, s.consumed.water+1) } }), () => this.checkGoals('Water +1')); }
+  removeWater(){ this.setState(s => ({ consumed:{ ...s.consumed, water:Math.max(0, s.consumed.water-1) } })); }
+  resetDay(){ this.setState({ consumed:{ cal:0,protein:0,carbs:0,fat:0,fiber:0,water:0 }, claimed:{}, log:[] }); }
+
+  checkGoals(baseMsg){
+    const { consumed, goals, claimed } = this.state;
+    let earned = 0; const nowClaimed = { ...claimed }; const met = [];
+    ['cal','protein','carbs','fat','fiber','water'].forEach(k => {
+      if(consumed[k] >= goals[k] && !claimed[k]){ nowClaimed[k]=true; earned += this.reward[k]; met.push(k); }
+    });
+    if(earned > 0){
+      this.setState(s => ({ claimed:nowClaimed, bamboo:s.bamboo+earned }));
+      this.popEarn('+'+earned+' 🎋');
+      this.toast('🎉 ' + met.map(m=>m==='cal'?'Calorie':m[0].toUpperCase()+m.slice(1)).join(' & ') + ' goal! +' + earned + ' bamboo');
+    } else if(baseMsg){ this.toast(baseMsg); }
+  }
+
+  feed(){
+    if(this.state.bamboo < 2 || this.state.eating) { if(this.state.bamboo<2) this.toast('Not enough bamboo — hit a goal first!'); return; }
+    this.setState(s => {
+      let xp = s.xp + 20, level = s.level, energy = Math.min(100, s.energy + 10);
+      let leveled = false;
+      while(xp >= 100){ xp -= 100; level += 1; leveled = true; }
+      return { bamboo:s.bamboo-2, xp, level, energy, eating:true, _leveled:leveled };
+    }, () => {
+      if(this.state._leveled){
+        this.toast('⭐ Momo reached Level ' + this.state.level + '!');
+        if(this.state.level >= 5 && !this.state.unlocked.bao){
+          this.setState(s => ({ unlocked:{ ...s.unlocked, bao:true } }));
+          setTimeout(() => this.toast('🎉 New buddy unlocked: Bao!'), 900);
+        }
+      }
+      clearTimeout(this._eat); this._eat = setTimeout(() => this.setState({ eating:false }), 1300);
+    });
+  }
+
+  popEarn(txt){
+    const el = this.refs.earnPop.current; if(!el) return;
+    el.textContent = txt; el.style.animation = 'none'; void el.offsetWidth;
+    el.style.animation = 'pm-rise 1.3s ease-out'; el.style.opacity = '0';
+  }
+  toast(msg){
+    const el = this.refs.toast.current; if(!el) return;
+    el.textContent = msg; el.style.animation = 'none'; void el.offsetWidth;
+    el.style.animation = 'pm-toast 2.4s ease both';
+  }
+
+  buildRows(){
+    const foodRow = this.refs.foodRow.current;
+    if(foodRow){
+      foodRow.innerHTML = '';
+      // meal preps with servings left show up here first
+      this.state.mealPreps.filter(p => p.servings - p.consumed > 0).forEach(p => {
+        const left = p.servings - p.consumed;
+        const b = document.createElement('button');
+        b.style.cssText = 'text-align:left; cursor:pointer; background:linear-gradient(#241a12,#1b1510); border:1.5px solid #4a2a14; border-radius:14px; padding:12px 13px; font-family:Nunito; position:relative;';
+        b.innerHTML = '<div style="display:flex; align-items:center; justify-content:space-between;"><span style="font-size:22px; line-height:1;">'+p.emoji+'</span>'
+          + '<span style="font-size:10px; font-weight:800; color:#ff8c42; background:#3a2414; padding:3px 7px; border-radius:999px;">'+left+' left</span></div>'
+          + '<div style="font-weight:800; font-size:13.5px; margin:7px 0 2px; color:#f4f1ea;">'+p.name+'</div>'
+          + '<div style="font-size:11px; color:#c9915c;">'+p.per.cal+' kcal · P'+p.per.protein+' C'+p.per.carbs+' F'+p.per.fat+'</div>';
+        b.onclick = () => this.eatServing(p.id);
+        foodRow.appendChild(b);
+      });
+      // single foods — favourites first, else a few staples; tapping opens the amount picker
+      const fav = this.state.frequents.map(n => this.db.find(f => f.name === n)).filter(Boolean);
+      const quick = (fav.length ? fav : this.db.slice(0, 6)).slice(0, 6);
+      quick.forEach(fd => {
+        const b = document.createElement('button');
+        b.style.cssText = 'text-align:left; cursor:pointer; background:#1f1f25; border:1px solid #2c2c34; border-radius:14px; padding:12px 13px; font-family:Nunito;';
+        b.onmouseenter = () => b.style.background = '#f1ebe0';
+        b.onmouseleave = () => b.style.background = '#1f1f25';
+        b.innerHTML = '<div style="font-size:22px; line-height:1;">'+fd.emoji+'</div>'
+          + '<div style="font-weight:800; font-size:13.5px; margin:7px 0 2px; color:#f4f1ea;">'+fd.name+'</div>'
+          + '<div style="font-size:11px; color:#9a949f;">'+fd.cal+' kcal / '+this.fmtQty(fd.base)+' '+fd.unit+'</div>';
+        b.onclick = () => { this.setState({ screen:'log' }, () => this.pickFood(fd)); };
+        foodRow.appendChild(b);
+      });
+    }
+  }
+
+  buildLog(){
+    if(this.state.screen !== 'log') return;
+    // meal chips
+    const mealRow = this.refs.mealRow.current;
+    if(mealRow){
+      mealRow.innerHTML = '';
+      this.meals.forEach(m => {
+        const active = this.selectedMeal === m;
+        const b = document.createElement('button');
+        b.textContent = m;
+        b.style.cssText = 'cursor:pointer; font-family:Nunito; font-weight:800; font-size:13px; padding:9px 16px; border-radius:999px; border:1.5px solid '+(active?'#ff6b1a':'#34343d')+'; background:'+(active?'#ff6b1a':'#17171b')+'; color:'+(active?'#14100c':'#9a949f')+';';
+        b.onclick = () => { this.selectedMeal = m; this.forceUpdate(); };
+        mealRow.appendChild(b);
+      });
+    }
+    // search results
+    const list = this.refs.logList.current;
+    if(list){
+      const q = this.state.query.toLowerCase();
+      const matches = this.db.filter(f => f.name.toLowerCase().includes(q));
+      list.innerHTML = '';
+      if(matches.length === 0){ list.innerHTML = '<div style="padding:24px; text-align:center; color:#9a949f; font-size:14px;">No foods match "'+this.state.query+'"</div>'; }
+      matches.forEach(fd => {
+        const row = document.createElement('button');
+        row.style.cssText = 'width:100%; display:flex; align-items:center; gap:14px; text-align:left; cursor:pointer; background:#17171b; border:none; border-bottom:1px solid #26262e; padding:13px 16px; font-family:Nunito;';
+        row.onmouseenter = () => row.style.background = '#1f1f25';
+        row.onmouseleave = () => row.style.background = '#17171b';
+        const starred = this.state.frequents.includes(fd.name);
+        row.innerHTML = '<span style="font-size:24px;">'+fd.emoji+'</span>'
+          + '<span style="flex:1;"><span style="display:block; font-weight:800; font-size:14.5px; color:#f4f1ea;">'+fd.name+'</span>'
+          + '<span style="font-size:12px; color:#9a949f;">'+fd.cal+' kcal · P'+fd.protein+' · C'+fd.carbs+' · F'+fd.fat+' · Fb'+fd.fiber+'</span></span>';
+        const star = document.createElement('span');
+        star.textContent = starred ? '★' : '☆';
+        star.title = 'Save as frequent';
+        star.style.cssText = 'font-size:19px; cursor:pointer; color:'+(starred?'#ffa53d':'#5d5866')+'; padding:0 4px;';
+        star.onclick = (ev) => { ev.stopPropagation(); this.toggleFreq(fd.name); };
+        const plus = document.createElement('span');
+        plus.textContent = '+';
+        plus.style.cssText = 'width:30px; height:30px; border-radius:9px; background:#ff9142; color:#14100c; font-size:20px; font-weight:700; display:flex; align-items:center; justify-content:center;';
+        row.appendChild(star); row.appendChild(plus);
+        row.onclick = () => this.pickFood(fd);
+        list.appendChild(row);
+      });
+    }
+    // today's entries
+    const entries = this.refs.logEntries.current;
+    if(entries){
+      entries.innerHTML = '';
+      if(this.state.log.length === 0){ entries.innerHTML = '<div style="padding:24px 20px; text-align:center; color:#6f6a75; font-size:13px;"><div style="font-size:30px; margin-bottom:6px;">🐼</div>Nothing logged yet — feed yourself first!</div>'; }
+      this.state.log.forEach(e => {
+        const row = document.createElement('div');
+        row.style.cssText = 'display:flex; align-items:center; gap:12px; padding:11px 4px; border-bottom:1px solid #26262e;';
+        row.innerHTML = '<span style="font-size:20px;">'+e.emoji+'</span>'
+          + '<span style="flex:1;"><span style="display:block; font-weight:800; font-size:13.5px;">'+e.name+'</span>'
+          + '<span style="font-size:11px; color:#9a949f;">'+e.meal+' · '+e.cal+' kcal</span></span>';
+        const del = document.createElement('button');
+        del.textContent = '✕';
+        del.style.cssText = 'border:none; background:none; cursor:pointer; color:#5d5866; font-size:14px; padding:4px 8px;';
+        del.onclick = () => this.removeEntry(e.id);
+        row.appendChild(del);
+        entries.appendChild(row);
+      });
+    }
+    const totals = this.refs.logTotals.current;
+    if(totals){ const c = this.state.consumed; totals.textContent = c.cal + ' kcal · ' + c.protein + 'P · ' + c.carbs + 'C · ' + c.fat + 'F'; }
+    // frequent chips
+    const fr = this.refs.freqRow.current;
+    if(fr){
+      fr.innerHTML = '';
+      if(this.state.frequents.length === 0){ fr.innerHTML = '<div style="font-size:12.5px; color:#6f6a75;">No frequents yet — tap the ☆ on any food to save it here.</div>'; }
+      this.state.frequents.forEach(name => {
+        const fd = this.db.find(x => x.name === name) || this.customFoods && this.customFoods[name];
+        if(!fd) return;
+        const chip = document.createElement('div');
+        chip.style.cssText = 'display:flex; align-items:center; gap:7px; background:#241a12; border:1.5px solid #4a2a14; border-radius:999px; padding:7px 8px 7px 12px;';
+        const add = document.createElement('button');
+        add.innerHTML = fd.emoji+' <b style="font-weight:800;">'+fd.name.replace(/\\s*\\(.*\\)/,'')+'</b> <span style="color:#ffab5e; font-weight:700;">+'+fd.cal+'</span>';
+        add.style.cssText = 'border:none; background:none; cursor:pointer; font-family:Nunito; font-size:12.5px; color:#ffc98a; display:flex; align-items:center; gap:5px;';
+        add.onclick = () => this.pickFood(fd);
+        const x = document.createElement('button');
+        x.textContent = '✕'; x.style.cssText = 'border:none; background:none; cursor:pointer; color:#a8825a; font-size:11px;';
+        x.onclick = () => this.toggleFreq(fd.name);
+        chip.appendChild(add); chip.appendChild(x);
+        fr.appendChild(chip);
+      });
+    }
+  }
+
+  fmtQty(q){ return Number.isInteger(q) ? String(q) : q.toFixed(2).replace(/\.?0+$/,''); }
+  scaleFood(fd, qty){
+    const k = qty / fd.base;
+    const r = n => Math.round(n * k);
+    const unitLabel = ['g'].includes(fd.unit) ? fd.unit : ' ' + fd.unit + (qty !== 1 && !fd.unit.endsWith('s') ? 's' : '');
+    return { name: fd.name + ' · ' + this.fmtQty(qty) + unitLabel, emoji: fd.emoji,
+      cal:r(fd.cal), protein:r(fd.protein), carbs:r(fd.carbs), fat:r(fd.fat), fiber:r(fd.fiber) };
+  }
+  pickFood(fd){ this.pick = fd; this.pickQty = fd.def; this.renderPicker(); }
+  closePicker(){ this.pick = null; this.renderPicker(); }
+  confirmAdd(){
+    if(!this.pick) return;
+    const scaled = this.scaleFood(this.pick, this.pickQty);
+    this.addFood(scaled, this.selectedMeal);
+    this.pick = null; this.renderPicker();
+  }
+  bumpQty(delta){
+    if(!this.pick) return;
+    const q = Math.max(this.pick.step, Math.round((this.pickQty + delta) / this.pick.step) * this.pick.step);
+    this.pickQty = Math.round(q * 100) / 100;
+    this.paintPickerPreview();
+  }
+  paintPickerPreviewNums(){
+    if(!this.pick || !this._pk) return;
+    const s = this.scaleFood(this.pick, this.pickQty);
+    this._pk.cal.textContent = s.cal;
+    this._pk.macros.textContent = 'P ' + s.protein + '  ·  C ' + s.carbs + '  ·  F ' + s.fat + '  ·  Fb ' + s.fiber;
+    this._pk.unitLbl.textContent = this.pick.unit + (this.pickQty!==1 && this.pick.unit!=='g' && !this.pick.unit.endsWith('s') ? 's' : '');
+  }
+  paintPickerPreview(){
+    if(!this.pick || !this._pk) return;
+    this._pk.qty.value = this.fmtQty(this.pickQty);
+    this.paintPickerPreviewNums();
+  }
+  renderPicker(){
+    const host = this.refs.picker.current;
+    if(!host) return;
+    // don't yank the amount field out from under the user mid-type
+    const active = document.activeElement;
+    if(this._pk && active === this._pk.qty){ this.paintPickerPreviewNums(); return; }
+    host.innerHTML = '';
+    if(!this.pick){ this._pk = null; return; }
+    const fd = this.pick;
+    const card = document.createElement('div');
+    card.style.cssText = 'background:linear-gradient(#241a12,#1b1411); border:2px solid #4a3218; border-radius:20px; padding:18px; margin-bottom:16px; box-shadow:0 14px 30px -20px rgba(120,90,40,.5);';
+    const head = document.createElement('div');
+    head.style.cssText = 'display:flex; align-items:center; gap:11px; margin-bottom:14px;';
+    head.innerHTML = '<span style="font-size:30px;">'+fd.emoji+'</span>'
+      + '<span style="flex:1;"><span style="display:block; font-family:Fredoka,sans-serif; font-weight:700; font-size:18px; color:#f4f1ea;">'+fd.name+'</span>'
+      + '<span style="font-size:11.5px; color:#c9915c;">'+fd.cal+' kcal per '+this.fmtQty(fd.base)+' '+fd.unit+'</span></span>';
+    const close = document.createElement('button');
+    close.textContent = '✕'; close.style.cssText = 'border:none; background:none; cursor:pointer; color:#a8825a; font-size:15px; padding:4px;';
+    close.onclick = () => this.closePicker();
+    head.appendChild(close); card.appendChild(head);
+
+    const stepper = document.createElement('div');
+    stepper.style.cssText = 'display:flex; align-items:center; justify-content:center; gap:14px; margin-bottom:14px;';
+    const mk = (txt, d) => { const b=document.createElement('button'); b.textContent=txt; b.style.cssText='width:46px; height:46px; border-radius:14px; border:none; cursor:pointer; font-size:24px; font-weight:800; background:#241a12; color:#ffab5e; box-shadow:0 4px 10px -6px rgba(120,90,40,.6);'; b.onclick=()=>this.bumpQty(d); return b; };
+    const qtyWrap = document.createElement('div');
+    qtyWrap.style.cssText = 'min-width:150px; text-align:center;';
+    const qtyRow = document.createElement('div');
+    qtyRow.style.cssText = 'display:flex; align-items:baseline; justify-content:center; gap:6px;';
+    const qty = document.createElement('input');
+    qty.type = 'text'; qty.inputMode = 'decimal';
+    qty.style.cssText = 'width:74px; text-align:center; font-family:Fredoka,sans-serif; font-weight:700; font-size:22px; color:#f4f1ea; background:#1b1a1f; border:2px solid #4a3218; border-radius:11px; padding:5px 4px; outline:none;';
+    qty.onfocus = () => qty.select();
+    const commit = () => {
+      const v = parseFloat(String(qty.value).replace(/[^0-9.]/g,''));
+      this.pickQty = (isFinite(v) && v > 0) ? Math.round(v*100)/100 : fd.def;
+      this.paintPickerPreview();
+    };
+    qty.oninput = () => { const v = parseFloat(String(qty.value).replace(/[^0-9.]/g,'')); if(isFinite(v) && v>0){ this.pickQty = Math.round(v*100)/100; this.paintPickerPreviewNums(); } };
+    qty.onblur = commit;
+    qty.onkeydown = (e) => { if(e.key === 'Enter'){ commit(); this.confirmAdd(); } };
+    const unitLbl = document.createElement('span');
+    unitLbl.style.cssText = 'font-family:Nunito; font-weight:800; font-size:14px; color:#c9915c;';
+    qtyRow.appendChild(qty); qtyRow.appendChild(unitLbl);
+    const hint = document.createElement('div');
+    hint.textContent = 'type any amount';
+    hint.style.cssText = 'font-size:10.5px; color:#a8825a; margin-top:4px;';
+    qtyWrap.appendChild(qtyRow); qtyWrap.appendChild(hint);
+    stepper.appendChild(mk('−', -fd.step)); stepper.appendChild(qtyWrap); stepper.appendChild(mk('+', fd.step));
+    card.appendChild(stepper);
+
+    const preview = document.createElement('div');
+    preview.style.cssText = 'background:#17171b; border-radius:14px; padding:12px 14px; text-align:center; margin-bottom:14px;';
+    const cal = document.createElement('div');
+    cal.style.cssText = 'font-family:Fredoka,sans-serif; font-weight:700; font-size:26px; color:#f4f1ea;';
+    const calWrap = document.createElement('div'); calWrap.style.cssText='display:flex; align-items:baseline; justify-content:center; gap:6px;';
+    const calUnit = document.createElement('span'); calUnit.textContent='kcal'; calUnit.style.cssText='font-size:13px; color:#9a949f; font-weight:700;';
+    calWrap.appendChild(cal); calWrap.appendChild(calUnit);
+    const macros = document.createElement('div'); macros.style.cssText='font-size:12.5px; color:#9a949f; font-weight:700; margin-top:4px;';
+    preview.appendChild(calWrap); preview.appendChild(macros);
+    card.appendChild(preview);
+
+    if(fd.unit === 'g'){
+      const sc = document.createElement('button');
+      const on = this.scale.status === 'connected';
+      sc.textContent = on ? '⚖️ Use scale (' + this.netGrams() + ' g)' : '⚖️ Connect scale to weigh';
+      sc.style.cssText = 'width:100%; margin-bottom:9px; padding:11px; border-radius:12px; cursor:pointer; font-family:Nunito; font-weight:800; font-size:13px; border:1.5px solid #4a2a14; background:#241a12; color:#ffab5e;';
+      sc.onclick = () => on ? this.useScaleHere() : this.connectScale('food');
+      card.appendChild(sc);
+    }
+    const add = document.createElement('button');
+    add.textContent = 'Add to ' + this.selectedMeal + ' 🎋';
+    add.style.cssText = 'width:100%; padding:13px; border-radius:13px; border:none; cursor:pointer; font-family:Fredoka; font-weight:600; font-size:16px; background:#ff6b1a; color:#14100c;';
+    add.onclick = () => this.confirmAdd();
+    card.appendChild(add);
+
+    host.appendChild(card);
+    this._pk = { qty, cal, macros, unitLbl };
+    this.paintPickerPreview();
+  }
+
+  toggleFreq(name){
+    this.setState(s => ({ frequents: s.frequents.includes(name) ? s.frequents.filter(n => n !== name) : [...s.frequents, name] }));
+  }
+  toggleCustom(){ this.setState(s => ({ showCustom: !s.showCustom })); }
+  saveCustom(){
+    const name = (this.refs.cfName.current.value || '').trim();
+    if(!name){ this.toast('Give your food a name'); return; }
+    const num = r => Math.max(0, Math.round(Number(this.refs[r].current.value) || 0));
+    const fd = { name, emoji:'🍽️', unit:'serving', base:1, def:1, step:1, cal:num('cfCal'), protein:num('cfP'), carbs:num('cfC'), fat:num('cfF'), fiber:num('cfFb') };
+    this.customFoods = this.customFoods || {};
+    this.customFoods[name] = fd;
+    this.db = [fd, ...this.db];
+    ['cfName','cfCal','cfP','cfC','cfF','cfFb'].forEach(r => this.refs[r].current.value = '');
+    this.setState(s => ({ frequents:[...s.frequents, name], showCustom:false }));
+    this.toast(name + ' saved to frequents');
+  }
+
+  prepDraft = [];
+  prepQuery = '';
+  draftTotals(){
+    const t = { cal:0, protein:0, carbs:0, fat:0, fiber:0 };
+    this.prepDraft.forEach(row => {
+      const k = row.qty / row.food.base;
+      t.cal += row.food.cal*k; t.protein += row.food.protein*k;
+      t.carbs += row.food.carbs*k; t.fat += row.food.fat*k; t.fiber += row.food.fiber*k;
+    });
+    return t;
+  }
+  prepServingCount(){
+    const el = this.refs.prepServings.current;
+    return Math.max(1, Math.round(Number(el && el.value) || 1));
+  }
+  addPrepIngredient(fd){
+    this.prepDraft.push({ key:'i'+Date.now()+Math.random(), food:fd, qty:fd.def });
+    this.prepQuery = '';
+    const s = this.refs.prepIngSearch.current; if(s) s.value = '';
+    this.paintPrepBuilder();
+  }
+  removePrepIngredient(key){ this.prepDraft = this.prepDraft.filter(r => r.key !== key); this.paintPrepBuilder(); }
+  paintPrepBuilder(){
+    // search results
+    const res = this.refs.prepIngResults.current;
+    if(res){
+      res.innerHTML = '';
+      const q = (this.prepQuery||'').trim().toLowerCase();
+      if(q){
+        const matches = this.db.filter(f => f.name.toLowerCase().includes(q)).slice(0,6);
+        const box = document.createElement('div');
+        box.style.cssText = 'border:1.5px solid #34343d; border-radius:12px; overflow:hidden; margin-top:8px; background:#17171b;';
+        if(!matches.length) box.innerHTML = '<div style="padding:12px; font-size:12.5px; color:#6f6a75;">No ingredient found</div>';
+        matches.forEach(fd => {
+          const b = document.createElement('button');
+          b.style.cssText = 'width:100%; display:flex; align-items:center; gap:9px; text-align:left; cursor:pointer; background:none; border:none; border-bottom:1px solid #242429; padding:10px 12px; font-family:Nunito;';
+          b.onmouseenter = () => b.style.background = '#1f1f25';
+          b.onmouseleave = () => b.style.background = 'none';
+          b.innerHTML = '<span style="font-size:19px;">'+fd.emoji+'</span><span style="flex:1; font-weight:800; font-size:13px; color:#f4f1ea;">'+fd.name+'</span>'
+            + '<span style="font-size:11px; color:#9a949f;">'+fd.cal+' kcal/'+this.fmtQty(fd.base)+fd.unit+'</span>';
+          b.onclick = () => this.addPrepIngredient(fd);
+          box.appendChild(b);
+        });
+        res.appendChild(box);
+      }
+    }
+    // ingredient rows
+    const list = this.refs.prepIngList.current;
+    if(list){
+      list.innerHTML = '';
+      if(!this.prepDraft.length){
+        list.innerHTML = '<div style="border:1.5px dashed #34343d; border-radius:12px; padding:16px; text-align:center; font-size:12.5px; color:#6f6a75;">No ingredients yet — search above to build your batch 🍲</div>';
+      }
+      this.prepDraft.forEach(row => {
+        const k = row.qty / row.food.base;
+        const el = document.createElement('div');
+        el.style.cssText = 'display:flex; align-items:center; gap:8px; background:#1f1f25; border:1px solid #2c2c34; border-radius:12px; padding:8px 10px; margin-bottom:7px;';
+        el.innerHTML = '<span style="font-size:18px;">'+row.food.emoji+'</span>'
+          + '<span style="flex:1; min-width:0;"><span style="display:block; font-weight:800; font-size:12.5px; color:#f4f1ea; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">'+row.food.name+'</span>'
+          + '<span style="font-size:10.5px; color:#9a949f;">'+Math.round(row.food.cal*k)+' kcal · P'+Math.round(row.food.protein*k)+'</span></span>';
+        const amt = document.createElement('input');
+        amt.type='text'; amt.inputMode='decimal'; amt.value = this.fmtQty(row.qty);
+        amt.style.cssText = 'width:56px; flex:none; text-align:center; padding:6px 4px; border-radius:8px; border:1.5px solid #34343d; background:#1b1a1f; color:#f4f1ea; font-family:Nunito; font-weight:800; font-size:12.5px; outline:none;';
+        amt.oninput = () => { const v = parseFloat(String(amt.value).replace(/[^0-9.]/g,'')); if(isFinite(v) && v>0){ row.qty = v; this.paintPrepTotalsOnly(); } };
+        amt.onblur = () => this.paintPrepBuilder();
+        const unit = document.createElement('span');
+        unit.textContent = row.food.unit; unit.style.cssText = 'font-size:10.5px; font-weight:800; color:#c9915c; flex:none;';
+        const del = document.createElement('button');
+        del.textContent='✕'; del.style.cssText='border:none; background:none; cursor:pointer; color:#5d5866; font-size:12px;';
+        del.onclick = () => this.removePrepIngredient(row.key);
+        el.appendChild(amt); el.appendChild(unit);
+        if(row.food.unit === 'g' && this.scale.status === 'connected'){
+          const sc = document.createElement('button');
+          sc.textContent = '⚖️'; sc.title = 'Use scale weight';
+          sc.style.cssText = 'border:1.5px solid #4a2a14; background:#241a12; border-radius:8px; cursor:pointer; font-size:12px; padding:5px 7px; flex:none;';
+          sc.onclick = () => { const g = this.netGrams(); if(!g){ this.toast('Nothing on the scale'); return; } row.qty = g; this.paintPrepBuilder(); this.toast('⚖️ ' + g + ' g'); };
+          el.appendChild(sc);
+        }
+        el.appendChild(del);
+        list.appendChild(el);
+      });
+    }
+    this.paintPrepTotalsOnly();
+  }
+  paintPrepTotalsOnly(){
+    const host = this.refs.prepTotals.current;
+    if(!host) return;
+    const t = this.draftTotals();
+    const n = this.prepServingCount();
+    const per = k => Math.round(t[k]/n);
+    host.innerHTML = '<div style="background:linear-gradient(#241a12,#1b1510); border:1.5px solid #4a2a14; border-radius:14px; padding:13px 15px; text-align:center;">'
+      + '<div style="font-family:Space Mono,monospace; font-size:9.5px; letter-spacing:1.4px; color:#ff8c42; margin-bottom:4px;">PER SERVING (÷ '+n+')</div>'
+      + '<div style="font-family:Fredoka,sans-serif; font-weight:700; font-size:25px; color:#f4f1ea;">'+per('cal')+' <span style="font-size:12px; color:#9a949f;">kcal</span></div>'
+      + '<div style="font-size:12px; font-weight:700; color:#c9915c; margin-top:3px;">P '+per('protein')+' · C '+per('carbs')+' · F '+per('fat')+' · Fb '+per('fiber')+'</div>'
+      + '<div style="font-size:10.5px; color:#8a7360; margin-top:5px;">Batch total '+Math.round(t.cal)+' kcal</div></div>';
+  }
+
+  buildPrep(){
+    if(this.state.screen !== 'prep') return;
+    this.paintPrepBuilder();
+    const list = this.refs.prepList.current;
+    if(!list) return;
+    list.innerHTML = '';
+    if(this.state.mealPreps.length === 0){ list.innerHTML = '<div style="background:#17171b; border:1px dashed #3c3c46; border-radius:20px; padding:40px; text-align:center; color:#6f6a75; font-size:14px;">No meal preps yet. Add one on the left to start ticking off servings.</div>'; }
+    this.state.mealPreps.forEach(p => {
+      const left = p.servings - p.consumed;
+      const card = document.createElement('div');
+      card.style.cssText = 'background:#17171b; border:1px solid #2c2c34; border-radius:20px; padding:20px 22px; box-shadow:0 18px 40px -34px rgba(60,50,40,.6);';
+      const head = document.createElement('div');
+      head.style.cssText = 'display:flex; align-items:center; gap:12px; margin-bottom:14px;';
+      head.innerHTML = '<span style="font-size:26px;">'+p.emoji+'</span>'
+        + '<span style="flex:1;"><span style="display:block; font-family:Fredoka,sans-serif; font-weight:700; font-size:19px;">'+p.name+'</span>'
+        + '<span style="font-size:12.5px; color:#9a949f;">'+p.per.cal+' kcal/serving · P'+p.per.protein+' · C'+p.per.carbs+' · F'+p.per.fat+' · Fb'+p.per.fiber+'</span></span>'
+        + '<span style="font-family:Fredoka,sans-serif; font-weight:700; font-size:15px; color:'+(left>0?'#ff8c42':'#a8825a')+';">'+left+' / '+p.servings+' left</span>';
+      const del = document.createElement('button');
+      del.textContent = '✕'; del.style.cssText = 'border:none; background:none; cursor:pointer; color:#5d5866; font-size:14px; padding:4px;';
+      del.onclick = () => this.removePrep(p.id);
+      head.appendChild(del);
+      card.appendChild(head);
+      if(p.ingredients && p.ingredients.length){
+        const ing = document.createElement('div');
+        ing.textContent = '🥕 ' + p.ingredients.join(' · ');
+        ing.style.cssText = 'font-size:11.5px; color:#7d7783; margin:-6px 0 12px;';
+        card.appendChild(ing);
+      }
+      const row = document.createElement('div');
+      row.style.cssText = 'display:flex; gap:9px; flex-wrap:wrap;';
+      for(let i=0;i<p.servings;i++){
+        const eaten = i < p.consumed;
+        const s = document.createElement('button');
+        s.title = eaten ? 'Tap to un-log' : 'Tap to log this serving to today';
+        s.innerHTML = eaten ? '✓' : '';
+        s.style.cssText = 'width:46px; height:46px; border-radius:13px; cursor:pointer; font-size:18px; font-weight:800; display:flex; align-items:center; justify-content:center; border:2px solid '+(eaten?'#ff8c42':'#34343d')+'; background:'+(eaten?'#ff8c42':'#1f1f25')+'; color:'+(eaten?'#14100c':'#5d5866')+';';
+        s.onclick = () => eaten ? this.uneatServing(p.id) : this.eatServing(p.id);
+        row.appendChild(s);
+      }
+      card.appendChild(row);
+      list.appendChild(card);
+    });
+  }
+
+  addPrep(){
+    const name = (this.refs.prepName.current.value || '').trim();
+    if(!name){ this.toast('Name your meal prep'); return; }
+    if(!this.prepDraft.length){ this.toast('Add some ingredients first 🥕'); return; }
+    const servings = this.prepServingCount();
+    const t = this.draftTotals();
+    const per = { cal:Math.round(t.cal/servings), protein:Math.round(t.protein/servings),
+      carbs:Math.round(t.carbs/servings), fat:Math.round(t.fat/servings), fiber:Math.round(t.fiber/servings) };
+    const ingredients = this.prepDraft.map(r => r.food.name + ' ' + this.fmtQty(r.qty) + r.food.unit);
+    const prep = { id:'p'+Date.now(), name, emoji:'🍱', servings, consumed:0, per, ingredients };
+    this.refs.prepName.current.value = '';
+    this.refs.prepServings.current.value = '4';
+    this.prepDraft = []; this.prepQuery = '';
+    const s = this.refs.prepIngSearch.current; if(s) s.value = '';
+    this.setState(st => ({ mealPreps:[prep, ...st.mealPreps] }));
+    this.toast(name + ' added — ' + servings + ' servings at ' + per.cal + ' kcal');
+  }
+  removePrep(id){ this.setState(s => ({ mealPreps: s.mealPreps.filter(p => p.id !== id) })); }
+  eatServing(id){
+    const p = this.state.mealPreps.find(x => x.id === id);
+    if(!p || p.consumed >= p.servings) return;
+    this.setState(s => ({ mealPreps: s.mealPreps.map(x => x.id===id ? { ...x, consumed:x.consumed+1 } : x) }));
+    this.addFood({ name:p.name+' (serving)', emoji:p.emoji, ...p.per, prepId:id }, 'Meal prep');
+  }
+  uneatServing(id){
+    const p = this.state.mealPreps.find(x => x.id === id);
+    if(!p || p.consumed <= 0) return;
+    const entry = this.state.log.find(e => e.prepId === id);
+    this.setState(s => ({ mealPreps: s.mealPreps.map(x => x.id===id ? { ...x, consumed:x.consumed-1 } : x) }));
+    if(entry) this.removeEntry(entry.id);
+  }
+
+  catStyle(c){
+    const tone = { Produce:'#ff8c42', Protein:'#ff5c3d', Dairy:'#ff8c42', Pantry:'#ffa53d', Snacks:'#ff6b1a', Other:'#9a949f' };
+    return tone[c] || '#9a949f';
+  }
+  addShopItem(name, cat){
+    const n = String(name||'').trim(); if(!n) return null;
+    const item = { id:'s'+Date.now()+Math.random(), name:n, cat:cat||'Other', done:false };
+    this.setState(s => ({ shopping:[...s.shopping, item] }));
+    return item;
+  }
+  addShop(){
+    const el = this.refs.shopInput.current;
+    const item = this.addShopItem(el && el.value, this.shopCat);
+    if(!item){ this.toast('Type something to add'); return; }
+    if(el) el.value = '';
+    this.toast('🛒 ' + item.name + ' added');
+  }
+  toggleShop(id){ this.setState(s => ({ shopping: s.shopping.map(i => i.id===id ? { ...i, done:!i.done } : i) })); }
+  removeShop(id){ this.setState(s => ({ shopping: s.shopping.filter(i => i.id !== id) })); }
+  clearBought(){
+    const n = this.state.shopping.filter(i => i.done).length;
+    if(!n){ this.toast('Nothing ticked yet'); return; }
+    this.setState(s => ({ shopping: s.shopping.filter(i => !i.done) }));
+    this.toast('🧹 Cleared ' + n + ' item' + (n>1?'s':''));
+  }
+  addLowStock(){
+    const have = this.state.shopping.map(i => i.name.toLowerCase());
+    let added = 0;
+    this.state.frequents.forEach(n => {
+      if(have.includes(n.toLowerCase())) return;
+      const fd = this.db.find(f => f.name === n);
+      this.addShopItem(n, fd && /chicken|beef|salmon|tuna|egg|tofu|whey/i.test(n) ? 'Protein' : 'Other');
+      added++;
+    });
+    this.toast(added ? '🛒 Added ' + added + ' frequent' + (added>1?'s':'') : 'All frequents already listed');
+  }
+  insertScaleWeight(){
+    const g = this.netGrams();
+    const el = this.refs.coachInput.current;
+    if(el){ el.value = (el.value ? el.value.trim() + ' ' : '') + '(' + g + ' g on my scale)'; el.focus(); }
+  }
+  logBodyWeight(){
+    const kg = this.scale.kg;
+    if(!kg){ this.toast('No reading yet — step on the scale'); return; }
+    const entry = { id:'b'+Date.now(), kg, when:new Date().toLocaleDateString('en-US',{ month:'short', day:'numeric' }) };
+    this.setState(s => ({ bodyLog:[entry, ...s.bodyLog] }));
+    this.toast('⚖️ Logged ' + kg + ' kg');
+  }
+  removeBody(id){ this.setState(s => ({ bodyLog: s.bodyLog.filter(b => b.id !== id) })); }
+  buildBody(){
+    if(this.state.screen !== 'body') return;
+    const out = this.refs.bodyReadout.current;
+    if(out){
+      const on = this.scale.status === 'connected';
+      const kg = this.scale.kg;
+      out.innerHTML = '<div style="background:radial-gradient(80% 70% at 50% 30%,#2a1a0e,#17171b); border:1.5px solid #4a2a14; border-radius:18px; padding:22px; text-align:center;">'
+        + '<div style="font-family:Space Mono,monospace; font-size:10px; letter-spacing:1.5px; color:#ff9142; margin-bottom:6px;">CURRENT READING</div>'
+        + '<div style="font-family:Fredoka,sans-serif; font-weight:700; font-size:44px; color:#f4f1ea; line-height:1;">'+(kg? kg : '—')+'<span style="font-size:16px; color:#9a949f; margin-left:4px;">kg</span></div>'
+        + '<div style="font-size:12px; color:#7d7783; margin-top:6px;">'+(on ? 'Stand still on the scale 🐼' : 'Connect your scale above')+'</div></div>';
+      const btn = document.createElement('button');
+      btn.textContent = 'Save this weight';
+      btn.disabled = !kg;
+      btn.style.cssText = 'width:100%; margin-top:14px; padding:13px; border-radius:13px; border:none; cursor:'+(kg?'pointer':'not-allowed')+'; font-family:Fredoka; font-weight:600; font-size:15px; background:'+(kg?'#ff6b1a':'#26262e')+'; color:'+(kg?'#14100c':'#6f6a75')+';';
+      btn.onclick = () => this.logBodyWeight();
+      out.appendChild(btn);
+    }
+    const list = this.refs.bodyList.current;
+    if(list){
+      list.innerHTML = '';
+      const log = this.state.bodyLog;
+      if(!log.length){
+        list.innerHTML = '<div style="background:#17171b; border:1px dashed #3c3c46; border-radius:20px; padding:40px; text-align:center; color:#6f6a75; font-size:14px;"><div style="font-size:32px; margin-bottom:8px;">📈</div>No weigh-ins yet — save one to start your trend.</div>';
+        return;
+      }
+      const first = log[log.length-1].kg, latest = log[0].kg, diff = Math.round((latest-first)*10)/10;
+      const head = document.createElement('div');
+      head.style.cssText = 'background:#17171b; border:1px solid #2c2c34; border-radius:18px; padding:16px 18px; display:flex; align-items:center; gap:14px;';
+      head.innerHTML = '<div style="flex:1;"><div style="font-size:11.5px; color:#9a949f; font-weight:800;">LATEST</div>'
+        + '<div style="font-family:Fredoka,sans-serif; font-weight:700; font-size:26px;">'+latest+' kg</div></div>'
+        + '<div style="text-align:right;"><div style="font-size:11.5px; color:#9a949f; font-weight:800;">SINCE FIRST</div>'
+        + '<div style="font-family:Fredoka,sans-serif; font-weight:700; font-size:20px; color:'+(diff<0?'#ff8c42':diff>0?'#ff5c3d':'#9a949f')+';">'+(diff>0?'+':'')+diff+' kg</div></div>';
+      list.appendChild(head);
+      log.forEach(b => {
+        const row = document.createElement('div');
+        row.style.cssText = 'background:#17171b; border:1px solid #2c2c34; border-radius:14px; padding:11px 15px; display:flex; align-items:center; gap:12px;';
+        row.innerHTML = '<span style="font-size:17px;">⚖️</span><span style="flex:1; font-weight:800; font-size:14px;">'+b.kg+' kg</span>'
+          + '<span style="font-size:12px; color:#9a949f;">'+b.when+'</span>';
+        const del = document.createElement('button');
+        del.textContent='✕'; del.style.cssText='border:none; background:none; cursor:pointer; color:#5d5866; font-size:13px;';
+        del.onclick = () => this.removeBody(b.id);
+        row.appendChild(del);
+        list.appendChild(row);
+      });
+    }
+  }
+
+  buildShop(){
+    if(this.state.screen !== 'shop') return;
+    const cr = this.refs.shopCatRow.current;
+    if(cr){
+      cr.innerHTML = '';
+      this.shopCats.forEach(c => {
+        const active = this.shopCat === c;
+        const b = document.createElement('button');
+        b.textContent = c;
+        b.style.cssText = 'cursor:pointer; font-family:Nunito; font-weight:800; font-size:12px; padding:7px 13px; border-radius:999px; border:1.5px solid '+(active?this.catStyle(c):'#34343d')+'; background:'+(active?this.catStyle(c):'#17171b')+'; color:'+(active?'#14100c':'#9a949f')+';';
+        b.onclick = () => { this.shopCat = c; this.forceUpdate(); };
+        cr.appendChild(b);
+      });
+    }
+    const list = this.refs.shopList.current;
+    if(list){
+      list.innerHTML = '';
+      const items = this.state.shopping;
+      const count = this.refs.shopCount.current;
+      if(count){ const left = items.filter(i=>!i.done).length; count.textContent = items.length ? left + ' to buy · ' + items.filter(i=>i.done).length + ' ticked' : '0 items'; }
+      if(items.length === 0){
+        list.innerHTML = '<div style="background:#17171b; border:1px dashed #3c3c46; border-radius:20px; padding:44px; text-align:center; color:#6f6a75; font-size:14px;"><div style="font-size:34px; margin-bottom:8px;">🛒</div>Your list is empty — add something on the left, or ask Bamboo!</div>';
+        return;
+      }
+      this.shopCats.forEach(cat => {
+        const group = items.filter(i => i.cat === cat);
+        if(!group.length) return;
+        const card = document.createElement('div');
+        card.style.cssText = 'background:#17171b; border:1px solid #2c2c34; border-radius:20px; padding:16px 18px; box-shadow:0 18px 40px -34px rgba(60,50,40,.6);';
+        const h = document.createElement('div');
+        h.style.cssText = 'display:flex; align-items:center; gap:8px; margin-bottom:10px;';
+        h.innerHTML = '<span style="width:9px; height:9px; border-radius:50%; background:'+this.catStyle(cat)+';"></span>'
+          + '<span style="font-family:Space Mono,monospace; font-size:10px; letter-spacing:1.5px; color:'+this.catStyle(cat)+';">'+cat.toUpperCase()+'</span>'
+          + '<span style="font-size:11px; color:#5d5866;">'+group.length+'</span>';
+        card.appendChild(h);
+        group.forEach(i => {
+          const row = document.createElement('div');
+          row.style.cssText = 'display:flex; align-items:center; gap:11px; padding:9px 2px; border-bottom:1px solid #242429;';
+          const box = document.createElement('button');
+          box.innerHTML = i.done ? '✓' : '';
+          box.style.cssText = 'width:26px; height:26px; flex:none; border-radius:9px; cursor:pointer; font-size:14px; font-weight:800; display:flex; align-items:center; justify-content:center; border:2px solid '+(i.done?this.catStyle(cat):'#34343d')+'; background:'+(i.done?this.catStyle(cat):'#fff')+'; color:#fff;';
+          box.onclick = () => this.toggleShop(i.id);
+          const label = document.createElement('span');
+          label.textContent = i.name;
+          label.style.cssText = 'flex:1; font-weight:700; font-size:14px; color:'+(i.done?'#6f6a75':'#f4f1ea')+'; '+(i.done?'text-decoration:line-through;':'');
+          const del = document.createElement('button');
+          del.textContent = '✕';
+          del.style.cssText = 'border:none; background:none; cursor:pointer; color:#5d5866; font-size:13px; padding:3px 5px;';
+          del.onclick = () => this.removeShop(i.id);
+          row.appendChild(box); row.appendChild(label); row.appendChild(del);
+          card.appendChild(row);
+        });
+        list.appendChild(card);
+      });
+    }
+  }
+
+  pickCoachImage(){ const el = this.refs.coachFile.current; if(el) el.click(); }
+  onCoachFile(e){
+    const file = e.target.files && e.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      const url = String(reader.result);
+      const m = url.match(/^data:(image\/[a-zA-Z0-9.+-]+);base64,(.+)$/);
+      if(m){ this.pendingImage = { media_type:m[1], data:m[2], url }; this.paintCoachPreview(); }
+    };
+    reader.readAsDataURL(file);
+    e.target.value = '';
+  }
+  clearCoachImage(){ this.pendingImage = null; this.paintCoachPreview(); }
+  paintCoachPreview(){
+    const host = this.refs.coachPreview.current;
+    if(!host) return;
+    host.innerHTML = '';
+    if(!this.pendingImage) return;
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'display:flex; align-items:center; gap:9px; background:#241a12; border:1.5px solid #4a2a14; border-radius:13px; padding:8px 10px; margin-bottom:8px;';
+    wrap.innerHTML = '<img src="'+this.pendingImage.url+'" style="width:42px; height:42px; object-fit:cover; border-radius:9px;">'
+      + '<span style="flex:1; font-size:12.5px; font-weight:700; color:#2a8a94;">Photo attached — ask me to log it! 📸</span>';
+    const x = document.createElement('button');
+    x.textContent = '✕'; x.style.cssText = 'border:none; background:none; cursor:pointer; color:#7fc0c8; font-size:13px;';
+    x.onclick = () => this.clearCoachImage();
+    wrap.appendChild(x);
+    host.appendChild(wrap);
+  }
+
+  buildCoach(){
+    if(!this.state.coachOpen) return;
+    const box = this.refs.coachBox.current;
+    if(box){
+      box.innerHTML = '';
+      if(this.state.chat.length === 0){
+        box.innerHTML = '<div style="margin:auto; text-align:center; color:#6f6a75; max-width:340px;">'
+          + '<div style="font-size:40px; margin-bottom:10px;">🎋</div>'
+          + '<div style="font-family:Fredoka,sans-serif; font-weight:600; font-size:17px; color:#9a949f;">Hi! I\'m Bamboo.</div>'
+          + '<div style="font-size:13.5px; margin-top:6px; line-height:1.5;">Ask me what to eat to hit your remaining macros, for a snack idea, or to plan your next meal.</div></div>';
+      }
+      this.state.chat.forEach(m => {
+        const wrap = document.createElement('div');
+        const me = m.role === 'user';
+        wrap.style.cssText = 'display:flex; '+(me?'justify-content:flex-end;':'justify-content:flex-start;');
+        const bub = document.createElement('div');
+        bub.style.cssText = 'max-width:76%; padding:12px 15px; border-radius:16px; font-size:14px; line-height:1.55; white-space:pre-wrap; '
+          + (me ? 'background:#ff6b1a; color:#14100c; border-bottom-right-radius:5px;' : 'background:#26262e; color:#f4f1ea; border-bottom-left-radius:5px;');
+        if(me){
+          if(m.image){
+            const im = document.createElement('img');
+            im.src = m.image;
+            im.style.cssText = 'display:block; max-width:100%; border-radius:11px; margin-bottom:'+(m.content?'8px':'0')+';';
+            bub.appendChild(im);
+          }
+          if(m.content){ const t = document.createElement('span'); t.textContent = m.content; bub.appendChild(t); }
+        }
+        else { bub.innerHTML = m.content.replace(/[&<>]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[ch])).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>'); }
+        wrap.appendChild(bub);
+        box.appendChild(wrap);
+      });
+      if(this.state.chatLoading){
+        const wrap = document.createElement('div');
+        wrap.style.cssText = 'display:flex; justify-content:flex-start;';
+        wrap.innerHTML = '<div style="background:#26262e; color:#9a949f; padding:12px 15px; border-radius:16px; border-bottom-left-radius:5px; font-size:14px;">Bamboo is thinking…</div>';
+        box.appendChild(wrap);
+      }
+      box.scrollTop = box.scrollHeight;
+    }
+    const chips = this.refs.coachChips.current;
+    if(chips && !chips.dataset.built){
+      chips.dataset.built = '1';
+      ['Log what\'s on my scale','Log 2 eggs & toast for me','I made a chilli batch, 5 servings','High-protein snack?'].forEach(q => {
+        const b = document.createElement('button');
+        b.textContent = q;
+        b.style.cssText = 'font-family:Nunito; font-weight:700; font-size:12px; cursor:pointer; background:#26262e; border:1px solid #34343d; color:#b0aab5; padding:8px 13px; border-radius:999px;';
+        b.onclick = () => this.sendCoach(q);
+        chips.appendChild(b);
+      });
+    }
+  }
+
+  sendCoach(preset){
+    const input = this.refs.coachInput.current;
+    const text = (preset || (input && input.value) || '').trim();
+    const img = this.pendingImage;
+    if((!text && !img) || this.state.chatLoading) return;
+    if(input) input.value = '';
+    this.pendingImage = null; this.paintCoachPreview();
+    const userMsg = { role:'user', content:text || 'What is this? Log it for me.' };
+    if(img){ userMsg.image = img.url; userMsg._img = img; }
+    this.setState(s => ({ chat:[...s.chat, userMsg], chatLoading:true }), async () => {
+      const c = this.state.consumed, g = this.state.goals;
+      const remaining = { cal:g.cal-c.cal, protein:g.protein-c.protein, carbs:g.carbs-c.carbs, fat:g.fat-c.fat, fiber:g.fiber-c.fiber };
+      const preps = this.state.mealPreps.map(p => p.name+' ('+(p.servings-p.consumed)+' servings left, '+p.per.cal+' kcal / '+p.per.protein+'g protein each)').join('; ') || 'none';
+      const system = 'You are Bamboo, a warm, upbeat nutrition coach living inside the Panda Macros app. '
+        + 'Keep replies short and practical — 2-4 sentences or a tight bullet list, with rough macros for any food you suggest. '
+        + 'Use the user\'s real numbers. Goals (g & kcal): '+JSON.stringify(g)+'. Eaten today: '+JSON.stringify(c)+'. Remaining: '+JSON.stringify(remaining)+'. '
+        + (this.scale.status === 'connected'
+            ? 'Their Bluetooth scale is connected and currently reads ' + this.netGrams() + ' g — if they mention "on the scale" or ask you to log what they just weighed, use that exact weight. '
+            : '')
+        + 'Meal preps they have ready: '+preps+'. Prefer suggesting their meal preps when they fit. Occasionally cheer them on toward feeding their panda. Never give medical advice. '
+        + 'IMPORTANT — logging: when the user asks you to log/add a food or meal to their day (or accepts a suggestion), append a single machine-readable directive on its OWN LAST LINE, exactly: '
+        + '@@LOG:[{"name":"Grilled chicken","cal":300,"protein":40,"carbs":5,"fat":8,"fiber":1,"meal":"Dinner"}]@@ . '
+        + 'Use one object per food, realistic integer macros, meal one of Breakfast/Lunch/Dinner/Snack. Only include @@LOG when they actually want it logged. Never mention the directive syntax in your prose. '
+        + 'MEAL PREP: when the user asks you to add a batch/meal-prep to their inventory, append instead (or additionally) a last line: '
+        + '@@PREP:[{"name":"Beef chilli batch","servings":5,"cal":420,"protein":35,"carbs":40,"fat":14,"fiber":9}]@@ where macros are PER SERVING. '
+        + 'SHOPPING LIST: when they ask for ingredients, a recipe\'s shopping items, or to add something to their list, append a last line: '
+        + '@@SHOP:[{"name":"Chicken breast 1kg","cat":"Protein"}]@@ with cat one of Produce/Protein/Dairy/Pantry/Snacks/Other. Their current list: '+(this.state.shopping.map(i=>i.name).join(', ')||'empty')+'. '
+        + 'PHOTOS: if the user sends a food photo, identify the items and estimate portions and macros, then log them with @@LOG (or @@PREP if they say it is a batch they cooked). Say what you assumed.';
+      try {
+        const messages = this.state.chat.map(m => {
+          if(m._img){
+            return { role:m.role, content:[
+              { type:'image', source:{ type:'base64', media_type:m._img.media_type, data:m._img.data } },
+              { type:'text', text:m.content },
+            ]};
+          }
+          return { role:m.role, content:m.content };
+        });
+        const raw = ((await this.askCoach({ system, messages, max_tokens:600 })) || '').trim();
+        let display = raw, added = [];
+        const m = raw.match(/@@LOG:(\[[\s\S]*?\])@@/);
+        if(m){
+          display = raw.replace(m[0], '').trim();
+          try {
+            const items = JSON.parse(m[1]);
+            items.forEach(it => {
+              const fd = { name:String(it.name||'Food'), emoji:'🍽️',
+                cal:Math.max(0,Math.round(+it.cal||0)), protein:Math.max(0,Math.round(+it.protein||0)),
+                carbs:Math.max(0,Math.round(+it.carbs||0)), fat:Math.max(0,Math.round(+it.fat||0)), fiber:Math.max(0,Math.round(+it.fiber||0)) };
+              this.addFood(fd, it.meal || 'Snack');
+              added.push(fd);
+            });
+          } catch(err){}
+        }
+        if(added.length){
+          const totalCal = added.reduce((a,b)=>a+b.cal,0);
+          display += (display?'\n\n':'') + '✅ Logged ' + added.map(a=>a.name).join(', ') + ' (' + totalCal + ' kcal) to your day.';
+          this.toast('🍽️ Coach logged ' + added.length + ' item' + (added.length>1?'s':''));
+        }
+        const sm = display.match(/@@SHOP:(\[[\s\S]*?\])@@/);
+        if(sm){
+          display = display.replace(sm[0], '').trim();
+          try {
+            const items = JSON.parse(sm[1]); const names = [];
+            items.forEach(it => { const added = this.addShopItem(it.name, it.cat); if(added) names.push(added.name); });
+            if(names.length){
+              display += (display?'\n\n':'') + '🛒 Added to your shopping list: ' + names.join(', ') + '.';
+              this.toast('🛒 Coach added ' + names.length + ' item' + (names.length>1?'s':''));
+            }
+          } catch(err){}
+        }
+        const pm = display.match(/@@PREP:(\[[\s\S]*?\])@@/);
+        if(pm){
+          display = display.replace(pm[0], '').trim();
+          try {
+            const preps = JSON.parse(pm[1]);
+            const made = [];
+            preps.forEach(p => {
+              const prep = { id:'p'+Date.now()+Math.random(), name:String(p.name||'Meal prep'), emoji:'🍱',
+                servings:Math.max(1, Math.round(+p.servings||1)), consumed:0,
+                per:{ cal:Math.max(0,Math.round(+p.cal||0)), protein:Math.max(0,Math.round(+p.protein||0)),
+                      carbs:Math.max(0,Math.round(+p.carbs||0)), fat:Math.max(0,Math.round(+p.fat||0)), fiber:Math.max(0,Math.round(+p.fiber||0)) } };
+              this.setState(s => ({ mealPreps:[prep, ...s.mealPreps] }));
+              made.push(prep);
+            });
+            if(made.length){
+              display += (display?'\n\n':'') + '🍱 Added to your meal prep: ' + made.map(p=>p.name+' ('+p.servings+' servings)').join(', ') + '.';
+              this.toast('🍱 Coach stocked your meal prep');
+            }
+          } catch(err){}
+        }
+        this.setState(s => ({ chat:[...s.chat, { role:'assistant', content:display || 'Hmm, try asking that a different way?' }], chatLoading:false }));
+      } catch(e) {
+        this.setState(s => ({ chat:[...s.chat, { role:'assistant', content:'I couldn\'t reach my brain just now 🐼 — give it another try in a moment.' }], chatLoading:false }));
+      }
+    });
+  }
+
+  buildPets(){
+    if(this.state.screen !== 'pets') return;
+    const grid = this.refs.petGrid.current;
+    if(!grid) return;
+    const pets = [
+      { key:'momo', name:'Momo', tier:'Common', accent:'#ff6b1a', soft:'#241a12', req:'Starter buddy', ear:'#ff6b1a' },
+      { key:'bao', name:'Bao', tier:'Rare', accent:'#ff8c42', soft:'#241a12', req:'Reach Level 5', ear:'#ff8c42' },
+      { key:'nova', name:'Nova', tier:'Legendary', accent:'#ff6b1a', soft:'#241a12', req:'7-day streak', ear:'#ff6b1a' },
+    ];
+    grid.innerHTML = '';
+    pets.forEach(p => {
+      const unlocked = this.state.unlocked[p.key];
+      const active = this.state.active === p.key;
+      const card = document.createElement('div');
+      card.style.cssText = 'position:relative; background:#17171b; border:2px solid '+(active?p.accent:'#2c2c34')+'; border-radius:22px; padding:20px; box-shadow:0 18px 40px -32px rgba(60,50,40,.6); '+(unlocked?'':'opacity:.62;');
+      card.innerHTML =
+        '<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">'
+        + '<span style="font-family:Space Mono,monospace; font-size:10px; letter-spacing:1.5px; color:'+p.accent+'; border:1.5px solid '+p.accent+'44; padding:4px 10px; border-radius:999px;">'+p.tier.toUpperCase()+'</span>'
+        + (unlocked ? (active?'<span style="font-size:11px; font-weight:800; color:'+p.accent+';">● ACTIVE</span>':'') : '<span style="font-size:16px;">🔒</span>')
+        + '</div>'
+        + '<div style="position:relative; height:150px; border-radius:16px; background:radial-gradient(70% 60% at 50% 42%, '+p.soft+' 0%, #17171b 75%); display:flex; align-items:flex-end; justify-content:center; overflow:hidden;">'
+        + this.miniPanda(p, unlocked)
+        + '</div>'
+        + '<h3 style="font-family:Fredoka,sans-serif; font-weight:700; font-size:22px; margin:14px 0 2px;">'+p.name+'</h3>'
+        + '<div style="font-size:12.5px; color:#9a949f; margin-bottom:14px;">'+(unlocked?'Unlocked':p.req)+'</div>';
+      const btn = document.createElement('button');
+      if(unlocked){
+        btn.textContent = active ? 'Active buddy' : 'Set as buddy';
+        btn.disabled = active;
+        btn.style.cssText = 'width:100%; padding:11px; border-radius:12px; border:none; cursor:'+(active?'default':'pointer')+'; font-family:Fredoka; font-weight:600; font-size:14px; background:'+(active?'#26262e':p.accent)+'; color:'+(active?'#6f6a75':'#14100c')+';';
+        btn.onclick = () => { if(!active){ this.setState({ active:p.key }); this.toast(p.name+' is now your buddy!'); } };
+      } else {
+        btn.textContent = p.req;
+        btn.disabled = true;
+        btn.style.cssText = 'width:100%; padding:11px; border-radius:12px; border:1.5px dashed #3c3c46; background:none; font-family:Nunito; font-weight:700; font-size:13px; color:#6f6a75; cursor:default;';
+      }
+      card.appendChild(btn);
+      grid.appendChild(card);
+    });
+  }
+
+  miniPanda(p, unlocked){
+    const body = unlocked ? '#fffdf8' : '#9d9aa4';
+    const dark = unlocked ? '#232329' : '#3d3b45';
+    const ear = unlocked ? p.ear : '#6a6774';
+    return '<div style="position:relative; width:118px; height:130px; margin-bottom:8px;">'
+      + '<div style="position:absolute; left:29px; top:66px; width:60px; height:60px; background:'+body+'; border-radius:48% 48% 44% 44%;"></div>'
+      + '<div style="position:absolute; left:14px; top:2px; width:32px; height:32px; background:'+dark+'; border-radius:50%;"></div>'
+      + '<div style="position:absolute; right:14px; top:2px; width:32px; height:32px; background:'+dark+'; border-radius:50%;"></div>'
+      + '<div style="position:absolute; left:20px; top:8px; width:18px; height:18px; background:'+ear+'; border-radius:50%; opacity:.9;"></div>'
+      + '<div style="position:absolute; right:20px; top:8px; width:18px; height:18px; background:'+ear+'; border-radius:50%; opacity:.9;"></div>'
+      + '<div style="position:absolute; left:50%; top:12px; transform:translateX(-50%); width:92px; height:80px; background:'+body+'; border-radius:50%;">'
+      + '<div style="position:absolute; left:15px; top:27px; width:25px; height:30px; background:'+dark+'; border-radius:50%; transform:rotate(20deg);"></div>'
+      + '<div style="position:absolute; right:15px; top:27px; width:25px; height:30px; background:'+dark+'; border-radius:50%; transform:rotate(-20deg);"></div>'
+      + '<div style="position:absolute; left:20px; top:31px; width:16px; height:9px; background:'+dark+'; border-radius:50%;"></div>'
+      + '<div style="position:absolute; right:20px; top:31px; width:16px; height:9px; background:'+dark+'; border-radius:50%;"></div>'
+      + '<div style="position:absolute; left:50%; top:52px; transform:translateX(-50%); width:11px; height:8px; background:'+(unlocked?'#ff5f8a':dark)+'; border-radius:6px 6px 8px 8px;"></div>'
+      + '</div></div>';
+  }
+
+  setBar(ref, ratio){ const el = this.refs[ref].current; if(el) el.style.transform = 'scaleX(' + Math.max(0, Math.min(1, ratio)) + ')'; }
+  setTxt(ref, txt){ const el = this.refs[ref].current; if(el) el.textContent = txt; }
+
+  sync(){
+    const { consumed:c, goals:g } = this.state;
+    this.setTxt('dateHdr', this.fmtDate());
+    this.setTxt('dateHero', this.fmtDate().toUpperCase());
+    // calorie ring
+    const calRatio = Math.min(1, c.cal / g.cal);
+    const ring = this.refs.calRing.current;
+    if(ring) ring.style.background = 'conic-gradient(#ff6b1a ' + (calRatio*360) + 'deg, #26262e 0deg)';
+    this.setTxt('calNum', c.cal);
+    this.setTxt('calLeft', Math.max(0, g.cal - c.cal));
+    // macro bars
+    this.setBar('pBar', c.protein/g.protein); this.setTxt('pTxt', c.protein+' / '+g.protein+' g');
+    this.setBar('cBar', c.carbs/g.carbs);     this.setTxt('cTxt', c.carbs+' / '+g.carbs+' g');
+    this.setBar('fBar', c.fat/g.fat);         this.setTxt('fTxt', c.fat+' / '+g.fat+' g');
+    this.setBar('fbBar', c.fiber/g.fiber);    this.setTxt('fbTxt', c.fiber+' / '+g.fiber+' g');
+    // water droplets
+    const wr = this.refs.waterRow.current;
+    if(wr){
+      wr.innerHTML = '';
+      for(let i=0;i<g.water;i++){
+        const d = document.createElement('div');
+        const on = i < c.water;
+        d.style.cssText = 'flex:1; height:44px; border-radius:12px; background:'+(on?'#ff8c42':'#26262e')+'; border:1px solid '+(on?'#c74a08':'#34343d')+'; display:flex; align-items:center; justify-content:center; font-size:18px; transition:background .2s;';
+        d.textContent = on ? '💧' : '';
+        wr.appendChild(d);
+      }
+    }
+    this.setTxt('waterTxt', c.water + ' / ' + g.water);
+    // pet
+    this.setTxt('bamboo', this.state.bamboo);
+    this.setTxt('lvl', this.state.level);
+    this.setTxt('nextLvl', this.state.level + 1);
+    this.setBar('energyBar', this.state.energy/100); this.setTxt('energyTxt', this.state.energy + '%');
+    this.setBar('xpBar', this.state.xp/100);         this.setTxt('xpTxt', this.state.xp + ' / 100');
+    const panda = this.refs.panda.current;
+    if(panda) panda.style.animation = this.state.eating ? 'pm-chew .42s ease-in-out 3' : 'pm-bob 3.2s ease-in-out infinite';
+    const mood = this.refs.mood.current;
+    if(mood) mood.textContent = this.state.energy >= 90 ? 'Bouncing with energy!' : this.state.energy >= 60 ? 'Happy & content' : 'Peckish — feed me!';
+    const fl = this.refs.feedLabel.current;
+    if(fl) fl.textContent = this.state.bamboo < 2 ? 'Need 2 bamboo' : 'Feed Momo · 2 bamboo';
+    const fb = this.refs.feedBtn.current;
+    if(fb){ fb.style.opacity = this.state.bamboo < 2 ? '.5' : '1'; fb.style.cursor = this.state.bamboo < 2 ? 'not-allowed' : 'pointer'; }
+  }
+
+  tab(name){
+    const active = this.state.screen === name;
+    return 'font-family:Nunito; font-weight:800; font-size:14px; white-space:nowrap; cursor:pointer; border:none; padding:9px 18px; border-radius:10px; background:'
+      + (active ? '#ff6b1a' : 'transparent') + '; color:' + (active ? '#14100c' : '#9a949f') + ';';
+  }
+
+  renderVals(){
+    const s = this.state, r = this.refs;
+    return {
+      onDash: s.screen==='dashboard', onLog: s.screen==='log', onPets: s.screen==='pets',
+      onPrep: s.screen==='prep', onShop: s.screen==='shop', onBody: s.screen==='body', coachOpen: s.coachOpen,
+      showCustom: s.showCustom,
+      eating: s.eating,
+      calGoal: s.goals.cal,
+      goDash: () => this.setState({ screen:'dashboard' }),
+      goLog: () => this.setState({ screen:'log' }),
+      goPrep: () => this.setState({ screen:'prep' }),
+      goPets: () => this.setState({ screen:'pets' }),
+      goShop: () => this.setState({ screen:'shop' }),
+      goBody: () => this.setState({ screen:'body' }),
+      insertScaleWeight: () => this.insertScaleWeight(),
+      onPrepIngSearch: (e) => { this.prepQuery = e.target.value; this.paintPrepBuilder(); },
+      onPrepServings: () => this.paintPrepTotalsOnly(),
+      addShop: () => this.addShop(), clearBought: () => this.clearBought(), addLowStock: () => this.addLowStock(),
+      onShopKey: (e) => { if(e.key === 'Enter'){ e.preventDefault(); this.addShop(); } },
+      toggleCoach: () => this.setState(st => ({ coachOpen: !st.coachOpen })),
+      pickCoachImage: () => this.pickCoachImage(),
+      onCoachFile: (e) => this.onCoachFile(e),
+      tabDash: this.tab('dashboard'), tabLog: this.tab('log'), tabPrep: this.tab('prep'),
+      tabPets: this.tab('pets'), tabShop: this.tab('shop'), tabBody: this.tab('body'),
+      toggleCustom: () => this.toggleCustom(), saveCustom: () => this.saveCustom(),
+      addPrep: () => this.addPrep(), sendCoach: () => this.sendCoach(),
+      onCoachKey: (e) => { if(e.key === 'Enter'){ e.preventDefault(); this.sendCoach(); } },
+      addWater: () => this.addWater(), removeWater: () => this.removeWater(),
+      resetDay: () => this.resetDay(), feed: () => this.feed(),
+      bambooRef:r.bamboo, calRingRef:r.calRing, calNumRef:r.calNum, calLeftRef:r.calLeft,
+      pBarRef:r.pBar, cBarRef:r.cBar, fBarRef:r.fBar, fbBarRef:r.fbBar,
+      pTxtRef:r.pTxt, cTxtRef:r.cTxt, fTxtRef:r.fTxt, fbTxtRef:r.fbTxt,
+      waterTxtRef:r.waterTxt, waterRowRef:r.waterRow, foodRowRef:r.foodRow,
+      lvlRef:r.lvl, moodRef:r.mood, pandaRef:r.panda, energyTxtRef:r.energyTxt, energyBarRef:r.energyBar,
+      xpTxtRef:r.xpTxt, xpBarRef:r.xpBar, nextLvlRef:r.nextLvl, feedBtnRef:r.feedBtn, feedLabelRef:r.feedLabel,
+      earnPopRef:r.earnPop, toastRef:r.toast,
+      logSearchRef:r.logSearch, mealRowRef:r.mealRow, logListRef:r.logList,
+      logEntriesRef:r.logEntries, logTotalsRef:r.logTotals, petGridRef:r.petGrid,
+      onSearch: (e) => this.setState({ query: e.target.value }),
+      dateHdrRef:r.dateHdr, dateHeroRef:r.dateHero, freqRowRef:r.freqRow, customBtnRef:r.customBtn,
+      cfNameRef:r.cfName, cfCalRef:r.cfCal, cfPRef:r.cfP, cfCRef:r.cfC, cfFRef:r.cfF, cfFbRef:r.cfFb,
+      prepNameRef:r.prepName, prepServingsRef:r.prepServings, prepCalRef:r.prepCal,
+      prepPRef:r.prepP, prepCRef:r.prepC, prepFRef:r.prepF, prepFbRef:r.prepFb, prepListRef:r.prepList,
+      prepIngSearchRef:r.prepIngSearch, prepIngResultsRef:r.prepIngResults,
+      prepIngListRef:r.prepIngList, prepTotalsRef:r.prepTotals,
+      coachBoxRef:r.coachBox, coachChipsRef:r.coachChips, coachInputRef:r.coachInput,
+      pickerRef:r.picker, coachPreviewRef:r.coachPreview, coachFileRef:r.coachFile,
+      shopInputRef:r.shopInput, shopCatRowRef:r.shopCatRow, shopListRef:r.shopList, shopCountRef:r.shopCount,
+      scaleBarLogRef:r.scaleBarLog, scaleBarPrepRef:r.scaleBarPrep, scaleBarBodyRef:r.scaleBarBody,
+      coachScaleChipRef:r.coachScaleChip, bodyListRef:r.bodyList, bodyReadoutRef:r.bodyReadout,
+    };
+  }
+}
+</script>
+</body>
+</html>
